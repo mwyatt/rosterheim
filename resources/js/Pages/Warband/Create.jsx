@@ -1,27 +1,18 @@
 import axios from "axios";
 import {useState, useEffect} from "react";
 import WarbandName from "@/Pages/Warband/Persist/WarbandName.jsx";
+import WarbandType from "@/Pages/Warband/Persist/WarbandType.jsx";
+import Warrior from "@/Pages/Warband/Persist/Warrior.jsx";
 
 export default function Create({
     warband,
-    types,
+    warbandTypes,
     warriorTemplates,
     equipments
 }) {
     const [feedback, setFeedback] = useState()
     const [formData, setFormData] = useState(warband ? warband : {});
     const [filteredWarriorTemplates, setFilteredWarriorTemplates] = useState(warriorTemplates);
-    const statsTemplate = {
-        'M': 'stat_movement',
-        'WS': 'stat_weapon_skill',
-        'BS': 'stat_ballistic_skill',
-        'S': 'stat_strength',
-        'T': 'stat_toughness',
-        'W': 'stat_wounds',
-        'I': 'stat_initiative',
-        'A': 'stat_attacks',
-        'Ld': 'stat_leadership',
-    }
 
     useEffect(() => {
         handleChangeType({target: {
@@ -29,6 +20,13 @@ export default function Create({
             value: warband.type
         }})
     }, ['']);
+
+    const calculateRemainingGold = () => {
+        const totalGold = formData['warriors'].reduce((total, warrior) => {
+            return total + warrior['qty'] * warriorTemplates.find(warriorTemplate => warriorTemplate.id === warrior['warrior_template_id']).cost;
+        }, 0);
+        return 500 - totalGold;
+    }
 
     const getMemberCount = () => {
         return formData['warriors'].length;
@@ -75,7 +73,8 @@ export default function Create({
         const warriorTemplate = warriorTemplates.find(warriorTemplate => warriorTemplate.id === warriorTemplateId);
         formData['warriors'] = [...formData['warriors'], {
             warrior_template_id: warriorTemplate.id,
-            equipments: []
+            equipments: [],
+            name: '',
         }];
         setFormData({...formData})
     }
@@ -103,7 +102,7 @@ export default function Create({
         setFormData({...formData});
     }
 
-    const handleWarriorRemove = ({ index }) => {
+    const handleWarriorRemove = (index) => {
         formData['warriors'].splice(index, 1);
         setFormData({...formData});
     }
@@ -114,24 +113,16 @@ export default function Create({
             <div>{feedback}</div>
             <div className="flex gap-6 mb-4">
                 <div className="border-2 flex flex-1 p-2 border-black">
-                    <WarbandName onChange={handleChange} value={warband.name} />
+                    <WarbandName handleChange={handleChange} name={formData.name}/>
                 </div>
                 <div className="border-2 flex flex-2 p-2 border-black">
-                    <h2 className="uppercase mr-2">Warband Type:</h2>
-                    <select className="print:hidden" name="type" onChange={handleChangeType}
-                            defaultValue={warband.type}>
-                        <option value="">Select Type</option>
-                        {types.map((type, index) => (
-                            <option value={type} key={index}>{type}</option>
-                        ))}
-                    </select>
-                    <span className="screen:hidden print:show">{warband.type}</span>
+                    <WarbandType handleChangeType={handleChangeType} warbandTypes={warbandTypes} type={formData.type}/>
                 </div>
             </div>
             <div className="flex gap-6 mb-4">
                 <div className="flex-none border-2 p-2 border-black">
                     <h2 className="uppercase text-center">Treasury:</h2>
-                    <p>Gold crowns: x</p>
+                    <p>Gold crowns: {calculateRemainingGold()}</p>
                     <p>Wyrdstone shards: x</p>
                 </div>
                 <div className="flex-none border-2 p-2 border-black">
@@ -159,87 +150,23 @@ export default function Create({
                 </select>
             </div>
             <div className="mb-4">
-                {formData['warriors'].map((warrior, warriorIndex) => {
-                    const warriorTemplate = warriorTemplates.find(warriorTemplate => warriorTemplate.id === warrior.warrior_template_id);
-
-                    return (
-                        <div key={warriorIndex} className="border-2 border-black flex">
-                            <div>
-                                <div className="border-b-2 border-black">
-                                    <label htmlFor="" className="mr-2">Name</label>
-                                    <input
-                                        required={true}
-                                        className="print:hidden px-1 py-0 border-none"
-                                        type="text"
-                                        onChange={function (e) {
-                                            handleChangeWarrior(warriorIndex, 'name', e.target.value)
-                                        }}
-                                        value={warrior.name}
-                                    />
-                                    <span className="screen:hidden print:show">{warrior.name}</span>
-                                </div>
-                                <div className="flex">
-                                    <div className="border-r-2 border-black">
-                                        Number <span className="screen:hidden">{warrior.qty}</span>
-                                        <select className="print:hidden" name="qty" onChange={(e) => handleQtyChoose(warriorIndex, e.target.value)}>
-                                            {Array.from(Array(3).keys()).map((number, index) => (
-                                                <option value={number + 1} key={index}>{number + 1}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <div>
-                                        Type {warriorTemplate.type}
-                                    </div>
-                                </div>
-                                <div className="flex">
-                                    {Object.keys(statsTemplate).map((key, index) => (
-                                        <div className="flex-1 text-center" key={index}>
-                                            <div>{key}</div>
-                                            <span>{warriorTemplate[statsTemplate[key]]}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                            <div>
-                                <div className="flex">
-                                    <div>
-                                        <h2 className="uppercase">Equipment</h2>
-                                        <select
-                                            className="print:hidden"
-                                            onChange={(e) => handleEquipmentChoose(warriorIndex, e.target.value)}
-                                        >
-                                            <option value="">Add</option>
-                                            {equipments.map((equipment, index) => (
-                                                <option value={equipment.id} key={index}>{equipment.name}</option>
-                                            ))}
-                                        </select>
-                                        {warrior.equipments.map((warriorEquipment, warriorEquipmentIndex) => (
-                                            <div key={warriorEquipmentIndex}>
-                                                <div>{equipments.find(equipment => equipment.id === warriorEquipment.id).name}</div>
-                                                <span className="print:hidden"
-                                                    onClick={() => handleEquipmentRemove(warriorIndex, warriorEquipmentIndex)}>&times;</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                    <div>
-                                        <h2 className="uppercase">Special Rules</h2>
-                                        {warriorTemplate.rules.map((rule, index) => (
-                                            <span className="rounded-sm bg-gray-300 m-1 p-1" key={index}>{rule.name}</span>
-                                        ))}
-                                    </div>
-                                </div>
-                                <div>
-                                    Experience - boxes for each experience point available
-
-                                </div>
-                            </div>
-                            <button onClick={() => handleWarriorRemove(warriorIndex)}>&times;</button>
-                        </div>
-                    )
-                })}
-                <div>
-                    <button className="border-2 px-3 py-2" onClick={handleSubmit}>Save</button>
-                </div>
+                {formData['warriors'].map((warrior, warriorIndex) => (
+                    <Warrior
+                        warrior={warrior}
+                        warriorIndex={warriorIndex}
+                        key={warriorIndex}
+                        warriorTemplates={warriorTemplates}
+                        equipments={equipments}
+                        handleChangeWarrior={handleChangeWarrior}
+                        handleQtyChoose={handleQtyChoose}
+                        handleEquipmentChoose={handleEquipmentChoose}
+                        handleEquipmentRemove={handleEquipmentRemove}
+                        handleWarriorRemove={handleWarriorRemove}
+                    />
+                ))}
+            </div>
+            <div>
+                <button className="border-2 px-3 py-2" onClick={handleSubmit}>Save</button>
             </div>
         </>
     )

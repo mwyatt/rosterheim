@@ -38,7 +38,7 @@ Route::get('/warband/{id}', function ($id) {
     $warriorTemplates->each->load('rules');
     return Inertia::render('Warband/Create', [
         'warband' => $warband,
-        'types' => \App\Models\Warband::TYPES,
+        'warbandTypes' => \App\Models\Warband::TYPES,
         'warriorTemplates' => $warriorTemplates,
         'equipments' => \App\Models\Equipment::all(),
     ]);
