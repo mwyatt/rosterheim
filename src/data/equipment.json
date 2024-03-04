@@ -1,0 +1,15 @@
+[
+  {
+    "name": "Sword",
+    "description": "The sword is often referred to as the king of weapons.",
+    "gold": 10,
+    "rules": [
+      "Parry"
+    ]
+  },
+  {
+    "name": "Light Armor",
+    "description": "Light armor is a type of armor that is worn on the body to protect it from injury.",
+    "gold": 15
+  }
+]
