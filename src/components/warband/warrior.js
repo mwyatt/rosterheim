@@ -1,30 +1,67 @@
 import React from 'react';
+import Stat from './warrior/stat';
 
 export default function Warrior({
     warrior,
     warriorIndex,
     warriorTemplates,
+    warriorTypes,
     equipments,
+    rules,
     handleChangeWarrior,
     handleQtyChoose,
     handleEquipmentChoose,
     handleEquipmentRemove,
-    handleWarriorRemove
+    handleWarriorRemove,
 }) {
-    const statsTemplate = {
-        'M': 'statMovement',
-        'WS': 'statWeapon_skill',
-        'BS': 'statBallistic_skill',
-        'S': 'statStrength',
-        'T': 'statToughness',
-        'W': 'statWounds',
-        'I': 'statInitiative',
-        'A': 'statAttacks',
-        'Ld': 'statLeadership',
-    }
-    const warriorTemplate = warriorTemplates.find(warriorTemplate => warriorTemplate.id === warrior.warrior_template_id);
+    const warriorTemplate = warriorTemplates.find(
+        warriorTemplate => warriorTemplate.type === warrior.warriorTemplateType
+    );
+    const warriorType = warriorTypes.find(
+        warriorType => warriorType.isHero === warriorTemplate.isHero
+    );
 
-    return (<div className="border-2 border-black flex">
+    const getCombinedRules = () => {
+        console.log({
+            warriorTemplate: warriorTemplate,
+            warrior: warrior,
+        })
+        let ruleNames = warriorTemplate.rules;
+        warrior.equipments.forEach(equipment => {
+            ruleNames = ruleNames.concat(equipment.rules);
+        });
+        return rules.filter(rule => ruleNames.includes(rule.name));
+    }
+
+    const getExpTable = () => {
+        let output = [];
+        for (let i = 1; i < (warriorType.expAvailable + 1); i++) {
+            const filled = (warrior.exp + warriorTemplate.startExp) >= i;
+            const advance = warriorType.expAdvances.find(
+                expAdvance => expAdvance === i
+            );
+            const classNames = [
+                filled ? 'bg-gray-300' : '',
+                'border',
+                'p-2',
+                'm-1',
+                advance ? 'border-2 border-black' : ''
+            ]
+            output.push(
+                <span key={i} className={classNames.join(' ')} style={{
+                    "width": "10px",
+                    "height": "10px",
+                    "display": "inline-block"
+                }}>
+
+                </span>
+            )
+        }
+        return output;
+    }
+
+    return (
+        <div className="border-2 border-black flex">
             <div>
                 <div className="border-b-2 border-black">
                     <h2 className="mr-2">Name</h2>
@@ -57,40 +94,69 @@ export default function Warrior({
                     </div>
                 </div>
                 <div className="flex">
-                    {Object.keys(statsTemplate).map((key, index) => (<div className="flex-1 text-center" key={index}>
-                            <div>{key}</div>
-                            <span>{warriorTemplate[statsTemplate[key]]}</span>
-                        </div>))}
+                    {Object.keys(warriorTemplate.stats).map(
+                        (warriorTemplateStatKey, index) =>
+                            <Stat
+                                key={index}
+                                warriorTemplateStatKey={warriorTemplateStatKey}
+                                warriorTemplateStatValue={warriorTemplate.stats[warriorTemplateStatKey]}
+                                warrior={warrior}
+                                warriorIndex={warriorIndex}
+                                handleChangeWarrior={handleChangeWarrior}
+                            />)
+                    }
                 </div>
             </div>
-            <div>
-                <div className="flex">
-                    <div>
-                        <h2 className="uppercase">Equipment</h2>
-                        <select
-                            className="print:hidden"
-                            onChange={(e) => handleEquipmentChoose(warriorIndex, e.target.value)}
-                        >
-                            <option value="">Add</option>
-                            {equipments.map((equipment, index) => (
-                                <option value={equipment.id} key={index}>{equipment.name}</option>))}
+        <div>
+            <div className="flex">
+                <div>
+                    <h2 className="uppercase">Equipment</h2>
+                    <select
+                        className="print:hidden"
+                        onChange={(e) => handleEquipmentChoose(warriorIndex, e.target.value)}
+                    >
+                        <option value="">Add</option>
+                        {equipments.map((equipment, index) => (
+                                <option value={equipment.name} key={index}>{equipment.name}</option>))}
                         </select>
                         {warrior.equipments.map((warriorEquipment, warriorEquipmentIndex) => (
                             <div key={warriorEquipmentIndex}>
-                                <div>{equipments.find(equipment => equipment.id === warriorEquipment.id).name}</div>
+                                <div>{warriorEquipment.name}</div>
                                 <button className="print:hidden"
                                       onClick={() => handleEquipmentRemove(warriorIndex, warriorEquipmentIndex)}>&times;</button>
                             </div>))}
                     </div>
                     <div>
                         <h2 className="uppercase">Special Rules</h2>
-                        {warriorTemplate.rules.map((rule, index) => (
-                            <span className="rounded-sm bg-gray-300 m-1 p-1" key={index}>{rule.name}</span>))}
+                        {warriorTemplate.rules.map((ruleName, index) => (
+                            <span className="rounded-sm bg-gray-300 m-1 p-1" key={index}>{ruleName}</span>))}
                     </div>
                 </div>
                 <div>
-                    Experience - boxes for each experience point available
+                    Experience
 
+                    <input
+                        type="number"
+                        value={warriorTemplate.startExp + warrior.exp}
+                        onChange={function (e) {
+                            handleChangeWarrior(warriorIndex, 'exp', e.target.value - warriorTemplate.startExp)
+                        }}
+                    />
+
+                    {getExpTable()}
+
+                </div>
+                <div>
+                    <h3>Rules</h3>
+
+                    {getCombinedRules().map((rule, index) => {
+                        return (
+                            <div key={index}>
+                                <h4>{rule.name}</h4>
+                                <p>{rule.description}</p>
+                            </div>
+                        )
+                    })}
                 </div>
             </div>
             <button onClick={() => handleWarriorRemove(warriorIndex)}>&times;</button>

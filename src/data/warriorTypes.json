@@ -1,0 +1,12 @@
+[
+  {
+    "isHero": true,
+    "expAdvances": [2, 4, 6, 8, 11, 14, 17, 20, 23, 24, 28, 32, 36, 41, 46, 51, 57, 63, 69, 76, 83, 90],
+    "expAvailable": 90
+  },
+  {
+    "isHero": false,
+    "expAdvances": [2, 5, 9, 14],
+    "expAvailable": 14
+  }
+]

@@ -1,25 +1,45 @@
-import {useState} from "react"
+import {useEffect, useState} from "react"
 import React from "react"
 import warriorTemplates from "../data/warriorTemplates.json"
 import warbandTypes from "../data/warbandTypes.json"
+import warriorTypes from "../data/warriorTypes.json"
 import equipments from "../data/equipment.json"
+import rules from "../data/rules.json"
 import Name from "../components/warband/name"
 import Type from "../components/warband/type"
 import Warrior from "../components/warband/warrior"
 
 export default function ConfigPage () {
-    // const [feedback, setFeedback] = useState()
+    const [feedback, setFeedback] = useState()
+    const [warbandJson, setWarbandJson] = useState()
     const [formData, setFormData] = useState({
         name: '',
         type: '',
         warriors: []
     });
 
-    const [filteredWarriorTemplates, setFilteredWarriorTemplates] = useState(warriorTemplates);
+    console.log(formData);
+
+    const [filteredWarriorTemplates, setFilteredWarriorTemplates] = useState([]);
+
+    useEffect(() => {
+        const json = localStorage.getItem('warband');
+        if (json) {
+            const data = JSON.parse(json);
+            setFormData(data);
+            filterWarriorTemplates(data.type)
+        }
+    }, []);
 
     const calculateRemainingGold = () => {
         const totalGold = formData['warriors'].reduce((total, warrior) => {
-            return total + warrior['qty'] * warriorTemplates.find(warriorTemplate => warriorTemplate.id === warrior['warrior_template_id']).cost;
+            const warriorTemplate = warriorTemplates.find(
+                warriorTemplate => warriorTemplate.type === warrior['warriorTemplateType']
+            )
+            const warriorEquipmentCost = warrior['equipments'].reduce((total, equipment) => {
+                return total + equipment.gold;
+            }, 0);
+            return total + warrior['qty'] * (warriorTemplate.gold + warriorEquipmentCost);
         }, 0);
         return 500 - totalGold;
     }
@@ -39,10 +59,14 @@ export default function ConfigPage () {
         })
     }
 
-    const handleChangeType = (e) => {
+    const filterWarriorTemplates = (type) => {
         setFilteredWarriorTemplates([
-            ...warriorTemplates.filter(warriorTemplate => warriorTemplate.warbandType === e.target.value)
+            ...warriorTemplates.filter(warriorTemplate => warriorTemplate.warbandType === type)
         ]);
+    }
+
+    const handleChangeType = (e) => {
+        filterWarriorTemplates(e.target.value)
         handleChange(e);
     }
 
@@ -52,25 +76,24 @@ export default function ConfigPage () {
     }
 
     const handleSubmit = () => {
-        // axios.post('/warband', {
-        //     ...formData,
-        // })
-        //     .then(response => {
-        //         formData['id'] = response.data.id
-        //         setFormData(formData);
-        //     }).catch(error => {
-        //     setFeedback(error.response.data.message);
-        // })
+        console.log('saving formData', formData);
+        const json = JSON.stringify(formData);
+        localStorage.setItem('warband', json)
+        setWarbandJson(json)
+        setFeedback('Warband saved into localstorage')
     }
 
-    const handleWarriorTemplateChoose = (warriorTemplateId) => {
-        warriorTemplateId = parseInt(warriorTemplateId);
-        if (!warriorTemplateId) return;
-        const warriorTemplate = warriorTemplates.find(warriorTemplate => warriorTemplate.id === warriorTemplateId);
+    const handleWarriorTemplateChoose = (warriorTemplateType) => {
+        if (!warriorTemplateType) return;
+        const warriorTemplate = warriorTemplates.find(warriorTemplate => warriorTemplate.type === warriorTemplateType);
+
         formData['warriors'] = [...formData['warriors'], {
-            warrior_template_id: warriorTemplate.id,
+            warriorTemplateType: warriorTemplate.type,
             equipments: [],
             name: '',
+            qty: 1,
+            exp: 0,
+            stats: {}
         }];
         setFormData({...formData})
     }
@@ -81,14 +104,15 @@ export default function ConfigPage () {
         setFormData({...formData})
     }
 
-    const handleEquipmentChoose = (warriorIndex, equipmentId) => {
-        equipmentId = parseInt(equipmentId);
-        if (!equipmentId) return;
-        const alreadyAssigned = formData['warriors'][warriorIndex]['equipments'].find(warriorEquipment => warriorEquipment.id === equipmentId);
+    const handleEquipmentChoose = (warriorIndex, equipmentName) => {
+        if (!equipmentName) return;
+        const alreadyAssigned = formData['warriors'][warriorIndex]['equipments'].find(
+            warriorEquipment => warriorEquipment.name === equipmentName
+        );
         if (alreadyAssigned) return;
         formData['warriors'][warriorIndex]['equipments'] = [
             ...formData['warriors'][warriorIndex]['equipments'],
-            equipments.find(equipment => equipment.id === equipmentId)
+            equipments.find(equipment => equipment.name === equipmentName)
         ];
         setFormData({...formData})
     }
@@ -104,9 +128,10 @@ export default function ConfigPage () {
     }
 
     return (
-        <>
+        <div className="w-960">
             <h1 className="print:hidden">Warband Maker</h1>
-            {/*<div>{feedback}</div>*/}
+            <div>{feedback}</div>
+            <div>{warbandJson}</div>
             <div className="flex gap-6 mb-4">
                 <div className="border-2 flex flex-1 p-2 border-black">
                     <Name handleChange={handleChange} name={formData.name}/>
@@ -119,7 +144,7 @@ export default function ConfigPage () {
                 <div className="flex-none border-2 p-2 border-black">
                     <h2 className="uppercase text-center">Treasury:</h2>
                     <p>Gold crowns: {calculateRemainingGold()}</p>
-                    <p>Wyrdstone shards: x</p>
+                    <p>Wyrdstone shards: 0</p>
                 </div>
                 <div className="flex-none border-2 p-2 border-black">
                     <h2 className="uppercase">Warband Rating:</h2>
@@ -139,7 +164,7 @@ export default function ConfigPage () {
                 >
                     <option value="">Add Warrior</option>
                     {filteredWarriorTemplates.map((warriorTemplate, index) => (
-                        <option value={warriorTemplate.id} key={index}>
+                        <option value={warriorTemplate.type} key={index}>
                             {warriorTemplate.type} - {warriorTemplate.is_hero ? 'Hero' : 'Henchman'}
                         </option>
                     ))}
@@ -152,7 +177,9 @@ export default function ConfigPage () {
                         warriorIndex={warriorIndex}
                         key={warriorIndex}
                         warriorTemplates={warriorTemplates}
+                        warriorTypes={warriorTypes}
                         equipments={equipments}
+                        rules={rules}
                         handleChangeWarrior={handleChangeWarrior}
                         handleQtyChoose={handleQtyChoose}
                         handleEquipmentChoose={handleEquipmentChoose}
@@ -164,6 +191,6 @@ export default function ConfigPage () {
             <div>
                 <button className="border-2 px-3 py-2" onClick={handleSubmit}>Save</button>
             </div>
-        </>
+        </div>
     )
 }
