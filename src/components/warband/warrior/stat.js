@@ -25,7 +25,7 @@ export default function Stat({
         <div className="flex-1 text-center">
             <div>{statsTemplate[warriorTemplateStatKey]}</div>
             <input
-                style={{width: '30px'}}
+                className="w-10 text-center"
                 type="number"
                 value={warriorStat + warriorTemplateStatValue}
                 onChange={function (e) {

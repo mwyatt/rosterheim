@@ -1,14 +1,37 @@
 [
   {
     "name": "Parry",
+    "type": "equipment",
     "description": "After receiving a hit the model armed with a sword may roll a D6. If the score is greater than the hit roll, the model has parried the blow, and that attack is discarded. A model may not parry attacks made with double or more its own strength"
   },
   {
     "name": "Leader",
+    "type": "warrior",
     "description": "Any models in the warband within 6\" of the leader may use his leadership instead of their own."
   },
   {
     "name": "Wizard",
+    "type": "warrior",
     "description": "You are a wizard! See the magic section for details."
+  },
+  {
+    "name": "Scorpion Tail",
+    "type": "warrior",
+    "description": "Make an extra strength 5 attack in each hand-to-hand combat phase. If the model hit by the tail is immune to poison, the strength of the hit is reduced to 2."
+  },
+  {
+    "name": "Leg Wound",
+    "type": "seriousInjury",
+    "description": "The warrior's leg is broken. He suffers a -1 movement characteristic penalty from now on."
+  },
+  {
+    "name": "Arm Amputation",
+    "type": "seriousInjury",
+    "description": "The warrior may only use a single one-handed weapon from now on."
+  },
+  {
+    "name": "Light Arm Wound",
+    "type": "seriousInjury",
+    "description": "The warrior must miss the next game."
   }
 ]

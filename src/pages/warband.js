@@ -44,12 +44,42 @@ export default function ConfigPage () {
         return 500 - totalGold;
     }
 
+    const getWarriorRuleNames = (warrior) => {
+        const warriorTemplate = warriorTemplates.find(
+            warriorTemplate => warriorTemplate.type === warrior.warriorTemplateType
+        )
+        let ruleNames = warriorTemplate.rules
+        warrior.equipments.forEach(equipment => {
+            ruleNames = ruleNames.concat(equipment.rules);
+        });
+        warrior.injuries.forEach(injuryName => {
+            ruleNames = ruleNames.concat(injuryName);
+        })
+        return ruleNames;
+    }
+
+    const getUniqueRules = () => {
+        const ruleNames = formData.warriors.reduce((ruleNames, warrior) => {
+            return ruleNames.concat(getWarriorRuleNames(warrior));
+        }, [])
+        return rules.filter(rule => ruleNames.includes(rule.name));
+    }
+
     const getMemberCount = () => {
-        return formData['warriors'].length;
+        return formData['warriors'].reduce((total, warrior) => {
+            return total + warrior.qty;
+        }, 0);
     }
 
     const getWarbandRating = () => {
-        return getMemberCount() * 5;
+        let totalWarriorExp = 0;
+        totalWarriorExp = formData.warriors.reduce((total, warrior) => {
+            const warriorTemplate = warriorTemplates.find(
+                warriorTemplate => warriorTemplate.type === warrior.warriorTemplateType
+            )
+            return total + ((warrior.exp + warriorTemplate.startExp) * warrior.qty);
+        }, 0);
+        return getMemberCount() * 5 + totalWarriorExp;
     }
 
     const handleChange = (e) => {
@@ -90,6 +120,7 @@ export default function ConfigPage () {
         formData['warriors'] = [...formData['warriors'], {
             warriorTemplateType: warriorTemplate.type,
             equipments: [],
+            injuries: [],
             name: '',
             qty: 1,
             exp: 0,
@@ -128,7 +159,7 @@ export default function ConfigPage () {
     }
 
     return (
-        <div className="w-960">
+        <div className="w-960 p-8">
             <h1 className="print:hidden">Warband Maker</h1>
             <div>{feedback}</div>
             <div>{warbandJson}</div>
@@ -158,14 +189,13 @@ export default function ConfigPage () {
                 </div>
             </div>
             <div className="mb-4 print:hidden">
-                <h2>Warrior Types</h2>
                 <select
                     onChange={(e) => handleWarriorTemplateChoose(e.target.value)}
                 >
                     <option value="">Add Warrior</option>
                     {filteredWarriorTemplates.map((warriorTemplate, index) => (
                         <option value={warriorTemplate.type} key={index}>
-                            {warriorTemplate.type} - {warriorTemplate.is_hero ? 'Hero' : 'Henchman'}
+                            {warriorTemplate.type} - {warriorTemplate.isHero ? 'Hero' : 'Henchman'}
                         </option>
                     ))}
                 </select>
@@ -179,14 +209,25 @@ export default function ConfigPage () {
                         warriorTemplates={warriorTemplates}
                         warriorTypes={warriorTypes}
                         equipments={equipments}
-                        rules={rules}
                         handleChangeWarrior={handleChangeWarrior}
                         handleQtyChoose={handleQtyChoose}
                         handleEquipmentChoose={handleEquipmentChoose}
                         handleEquipmentRemove={handleEquipmentRemove}
                         handleWarriorRemove={handleWarriorRemove}
+                        rules={rules}
+                        getWarriorRuleNames={getWarriorRuleNames}
                     />
                 ))}
+            </div>
+            <div>
+                <h3>Rules</h3>
+                {getUniqueRules().map((rule, index) => {
+                    return (
+                        <div key={index}>
+                            <p><span className="rounded-sm bg-gray-200 m-1 px-1">{rule.name}</span> {rule.description}</p>
+                        </div>
+                    )
+                })}
             </div>
             <div>
                 <button className="border-2 px-3 py-2" onClick={handleSubmit}>Save</button>

@@ -1,5 +1,7 @@
 import React from 'react';
 import Stat from './warrior/stat';
+import warriorTemplates from "../../data/warriorTemplates.json";
+import rules from "../../data/rules.json";
 
 export default function Warrior({
     warrior,
@@ -7,12 +9,13 @@ export default function Warrior({
     warriorTemplates,
     warriorTypes,
     equipments,
-    rules,
     handleChangeWarrior,
     handleQtyChoose,
     handleEquipmentChoose,
     handleEquipmentRemove,
     handleWarriorRemove,
+    rules,
+    getWarriorRuleNames
 }) {
     const warriorTemplate = warriorTemplates.find(
         warriorTemplate => warriorTemplate.type === warrior.warriorTemplateType
@@ -21,15 +24,8 @@ export default function Warrior({
         warriorType => warriorType.isHero === warriorTemplate.isHero
     );
 
-    const getCombinedRules = () => {
-        console.log({
-            warriorTemplate: warriorTemplate,
-            warrior: warrior,
-        })
-        let ruleNames = warriorTemplate.rules;
-        warrior.equipments.forEach(equipment => {
-            ruleNames = ruleNames.concat(equipment.rules);
-        });
+    const getRules = () => {
+        const ruleNames = getWarriorRuleNames(warrior);
         return rules.filter(rule => ruleNames.includes(rule.name));
     }
 
@@ -44,13 +40,12 @@ export default function Warrior({
                 filled ? 'bg-gray-300' : '',
                 'border',
                 'p-2',
-                'm-1',
+                'm-0.5 my-0',
+                'w-2',
                 advance ? 'border-2 border-black' : ''
             ]
             output.push(
                 <span key={i} className={classNames.join(' ')} style={{
-                    "width": "10px",
-                    "height": "10px",
                     "display": "inline-block"
                 }}>
 
@@ -61,10 +56,10 @@ export default function Warrior({
     }
 
     return (
-        <div className="border-2 border-black flex">
-            <div>
-                <div className="border-b-2 border-black">
-                    <h2 className="mr-2">Name</h2>
+        <div className="border-2 border-black flex mb-2">
+            <div className="border-r-2 border-black">
+                <div className="border-b-2 border-black flex p-1">
+                    <span className="uppercase mr-2">Name</span>
                     <input
                         required={true}
                         className="print:hidden px-1 py-0 border-none"
@@ -76,12 +71,20 @@ export default function Warrior({
                     />
                     <span className="screen:hidden print:show">{warrior.name}</span>
                 </div>
-                <div className="flex">
-                    <div className="border-r-2 border-black">
-                        Number <span className="screen:hidden">{warrior.qty}</span>
+                <div className="flex border-b-2 border-black">
+                    <div className="border-r-2 border-black p-1">
+                        <span className="uppercase pr-2">Number</span>
+                        <span
+                            className={[
+                                warriorTemplate.isHero ? '' : 'screen:hidden'
+                            ].join(' ')}
+                        >{warrior.qty}</span>
                         <select
                             defaultValue={warrior.qty}
-                            className="print:hidden"
+                            className={[
+                                'print:hidden',
+                                warriorTemplate.isHero ? 'hidden' : ''
+                            ].join(' ')}
                             name="qty"
                             onChange={(e) => handleQtyChoose(warriorIndex, e.target.value)}
                         >
@@ -89,8 +92,8 @@ export default function Warrior({
                                 <option value={number + 1} key={index}>{number + 1}</option>))}
                         </select>
                     </div>
-                    <div>
-                        Type {warriorTemplate.type}
+                    <div className="p-1">
+                        <span className="uppercase pr-2">Type</span> {warriorTemplate.type}
                     </div>
                 </div>
                 <div className="flex">
@@ -106,10 +109,42 @@ export default function Warrior({
                             />)
                     }
                 </div>
+                <div className="print:hidden">
+                    <select
+                        onChange={function (e) {
+                            if (e.target.value === '') return;
+                            handleChangeWarrior(warriorIndex, 'injuries', [...new Set([
+                                ...warrior.injuries,
+                                e.target.value
+                            ])])
+                        }}
+                    >
+                        <option value="">Serious Injury</option>
+
+                        {rules.map((rule, index) => {
+                            if (rule.type === 'seriousInjury') {
+                                return <option value={rule.name} key={index}>{rule.name}</option>
+                            }
+                        })}
+                    </select>
+
+                    {warrior.injuries.map((injury, index) => (
+                        <div key={index}>
+                            <span className="rounded-sm bg-gray-200 m-1 px-1">{injury}</span>
+                            <button className="print:hidden"
+                                    onClick={function (e) {
+                                        handleChangeWarrior(warriorIndex, 'injuries', [
+                                            ...warrior.injuries.filter(warriorInjury => warriorInjury !== injury),
+                                        ])
+                                    }}
+                            >&times;</button>
+                        </div>
+                    ))}
+                </div>
             </div>
-        <div>
-            <div className="flex">
-                <div>
+            <div>
+                <div className="flex">
+                    <div className="border-r-2 border-b-2 border-black p-2">
                     <h2 className="uppercase">Equipment</h2>
                     <select
                         className="print:hidden"
@@ -121,20 +156,20 @@ export default function Warrior({
                         </select>
                         {warrior.equipments.map((warriorEquipment, warriorEquipmentIndex) => (
                             <div key={warriorEquipmentIndex}>
-                                <div>{warriorEquipment.name}</div>
+                                <span className="rounded-sm bg-gray-200 m-1 px-1">{warriorEquipment.name}</span>
                                 <button className="print:hidden"
                                       onClick={() => handleEquipmentRemove(warriorIndex, warriorEquipmentIndex)}>&times;</button>
-                            </div>))}
+                            </div>
+                        ))}
                     </div>
-                    <div>
+                    <div className="border-b-2 border-black p-2">
                         <h2 className="uppercase">Special Rules</h2>
-                        {warriorTemplate.rules.map((ruleName, index) => (
-                            <span className="rounded-sm bg-gray-300 m-1 p-1" key={index}>{ruleName}</span>))}
+                        {getRules().map((rule, index) => (
+                            <span className="rounded-sm bg-gray-200 m-1 px-1" key={index}>{rule.name}</span>
+                        ))}
                     </div>
                 </div>
                 <div>
-                    Experience
-
                     <input
                         type="number"
                         value={warriorTemplate.startExp + warrior.exp}
@@ -142,21 +177,7 @@ export default function Warrior({
                             handleChangeWarrior(warriorIndex, 'exp', e.target.value - warriorTemplate.startExp)
                         }}
                     />
-
                     {getExpTable()}
-
-                </div>
-                <div>
-                    <h3>Rules</h3>
-
-                    {getCombinedRules().map((rule, index) => {
-                        return (
-                            <div key={index}>
-                                <h4>{rule.name}</h4>
-                                <p>{rule.description}</p>
-                            </div>
-                        )
-                    })}
                 </div>
             </div>
             <button onClick={() => handleWarriorRemove(warriorIndex)}>&times;</button>
