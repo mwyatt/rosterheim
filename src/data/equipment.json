@@ -1,5 +1,32 @@
 [
   {
+    "name": "Fist",
+    "description": "",
+    "gold": 0,
+    "stats": {
+      "strength": -1
+    },
+    "rules": [
+      "+1 Enemy Armour Save"
+    ]
+  },
+  {
+    "name": "Dagger",
+    "description": "A small, easily concealed weapon.",
+    "gold": 0,
+    "rules": [
+      "+1 Enemy Armour Save"
+    ]
+  },
+  {
+    "name": "Mace",
+    "description": "A small, easily concealed weapon.",
+    "gold": 0,
+    "rules": [
+      "Concussion"
+    ]
+  },
+  {
     "name": "Sword",
     "description": "The sword is often referred to as the king of weapons.",
     "gold": 10,

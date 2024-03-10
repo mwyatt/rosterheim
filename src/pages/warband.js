@@ -15,7 +15,14 @@ export default function ConfigPage () {
     const [formData, setFormData] = useState({
         name: '',
         type: '',
-        warriors: []
+        warriors: [],
+        equipments: [],
+        wyrdstone: 0,
+        gold: 0,
+    });
+    const [inputData, setInputData] = useState({
+        gold: 0,
+        wyrdstone: 0,
     });
 
     console.log(formData);
@@ -31,6 +38,120 @@ export default function ConfigPage () {
         }
     }, []);
 
+    const getWyrdstoneValue = () => {
+        const warLen = formData.warriors.length
+        const selling = inputData.wyrdstone
+        const sellMap = [
+            {
+                check: function(warCount) {
+                    return warCount <= 3
+                },
+                1: 45,
+                2: 60,
+                3: 75,
+                4: 90,
+                5: 110,
+                6: 120,
+                7: 145,
+                8: 155,
+            },
+            {
+                check: function(warCount) {
+                    return warCount <= 6
+                },
+                1: 40,
+                2: 55,
+                3: 70,
+                4: 80,
+                5: 100,
+                6: 110,
+                7: 130,
+                8: 140,
+            },
+            {
+                check: function(warCount) {
+                    return warCount <= 9
+                },
+                1: 35,
+                2: 50,
+                3: 65,
+                4: 70,
+                5: 90,
+                6: 100,
+                7: 120,
+                8: 130,
+            },
+            {
+                check: function(warCount) {
+                    return warCount <= 12
+                },
+                1: 30,
+                2: 45,
+                3: 60,
+                4: 65,
+                5: 80,
+                6: 90,
+                7: 110,
+                8: 120,
+            },
+            {
+                check: function(warCount) {
+                    return warCount <= 15
+                },
+                1: 30,
+                2: 40,
+                3: 55,
+                4: 60,
+                5: 70,
+                6: 80,
+                7: 100,
+                8: 110,
+            },
+            {
+                check: function(warCount) {
+                    return warCount >= 16
+                },
+                1: 25,
+                2: 35,
+                3: 50,
+                4: 55,
+                5: 65,
+                6: 70,
+                7: 90,
+                8: 100,
+            },
+        ]
+        for (let i = 0; i < sellMap.length; i++) {
+            if (sellMap[i].check(warLen)) {
+                if (selling > 8) {
+                    return sellMap[i][8]
+                } else {
+                    return sellMap[i][selling]
+                }
+            }
+        }
+    }
+
+    const sellWyrdstone = () => {
+        if (inputData.wyrdstone < 1 || (formData.wyrdstone < inputData.wyrdstone)) {
+            return;
+        }
+
+        const value = getWyrdstoneValue()
+
+        setFeedback(`Sold ${inputData.wyrdstone} wyrdstone for ${value} gold`)
+
+        setFormData({
+            ...formData,
+            wyrdstone: formData.wyrdstone - parseInt(inputData.wyrdstone),
+            gold: formData.gold + value
+        })
+        setInputData({
+            ...inputData,
+            wyrdstone: 0
+        })
+    }
+
     const calculateRemainingGold = () => {
         const totalGold = formData['warriors'].reduce((total, warrior) => {
             const warriorTemplate = warriorTemplates.find(
@@ -41,7 +162,7 @@ export default function ConfigPage () {
             }, 0);
             return total + warrior['qty'] * (warriorTemplate.gold + warriorEquipmentCost);
         }, 0);
-        return 500 - totalGold;
+        return (500 + formData.gold) - totalGold;
     }
 
     const getWarriorRuleNames = (warrior) => {
@@ -52,8 +173,8 @@ export default function ConfigPage () {
         warrior.equipments.forEach(equipment => {
             ruleNames = ruleNames.concat(equipment.rules);
         });
-        warrior.injuries.forEach(injuryName => {
-            ruleNames = ruleNames.concat(injuryName);
+        warrior.rules.forEach(ruleName => {
+            ruleNames = ruleNames.concat(ruleName);
         })
         return ruleNames;
     }
@@ -120,7 +241,7 @@ export default function ConfigPage () {
         formData['warriors'] = [...formData['warriors'], {
             warriorTemplateType: warriorTemplate.type,
             equipments: [],
-            injuries: [],
+            rules: [],
             name: '',
             qty: 1,
             exp: 0,
@@ -163,7 +284,7 @@ export default function ConfigPage () {
             <h1 className="print:hidden">Warband Maker</h1>
             <div>{feedback}</div>
             <div>{warbandJson}</div>
-            <div className="flex gap-6 mb-4">
+            <div className="md:flex gap-6 mb-4">
                 <div className="border-2 flex flex-1 p-2 border-black">
                     <Name handleChange={handleChange} name={formData.name}/>
                 </div>
@@ -171,11 +292,59 @@ export default function ConfigPage () {
                     <Type handleChangeType={handleChangeType} warbandTypes={warbandTypes} type={formData.type}/>
                 </div>
             </div>
-            <div className="flex gap-6 mb-4">
+            <div className="lg:flex gap-6 mb-4">
                 <div className="flex-none border-2 p-2 border-black">
                     <h2 className="uppercase text-center">Treasury:</h2>
                     <p>Gold crowns: {calculateRemainingGold()}</p>
-                    <p>Wyrdstone shards: 0</p>
+                    <input
+                        type="number"
+                        value={inputData.gold}
+                        onChange={(e) =>
+                            setInputData({...inputData, gold: parseInt(e.target.value)})
+                        }
+                    />
+                    <button
+                        onClick={() => {
+                            setFormData({
+                                ...formData,
+                                gold: formData.gold + parseInt(inputData.gold)
+                            })
+                            setInputData({
+                                ...inputData,
+                                gold: 0
+                            })
+                        }}
+                    >
+                        Add Gold
+                    </button>
+
+                    <p>Wyrdstone shards: {formData.wyrdstone}</p>
+                    <input
+                        type="number"
+                        value={inputData.wyrdstone}
+                        onChange={(e) =>
+                            setInputData({...inputData, wyrdstone: parseInt(e.target.value)})
+                        }
+                    />
+                    <button
+                        onClick={() => {
+                            setFormData({
+                                ...formData,
+                                wyrdstone: formData.wyrdstone + parseInt(inputData.wyrdstone)
+                            })
+                            setInputData({
+                                ...inputData,
+                                wyrdstone: 0
+                            })
+                        }}
+                    >
+                        Add Wyrdstone
+                    </button>
+                    <button
+                        onClick={sellWyrdstone}
+                    >
+                        Sell Wyrdstone
+                    </button>
                 </div>
                 <div className="flex-none border-2 p-2 border-black">
                     <h2 className="uppercase">Warband Rating:</h2>
@@ -186,6 +355,34 @@ export default function ConfigPage () {
                 <div className="flex-1 border-2 p-2 border-black">
                     <h2 className="uppercase">Stored Equipment:</h2>
                     <p>Equipment that you have but not assigned to any warrior yet.</p>
+                    <select
+                        className="print:hidden"
+                        onChange={(e) => {
+                            setFormData({
+                                ...formData,
+                                equipments: [
+                                    ...formData.equipments,
+                                    equipments.find(equipment => equipment.name === e.target.value).name
+                                ]
+                            })
+                        }}
+                    >
+                        <option value="">Add</option>
+                        {equipments.map((equipment, index) => (
+                            <option value={equipment.name} key={index}>{equipment.name}</option>
+                        ))}
+                    </select>
+                    {formData.equipments.map((equipmentName, index) => (
+                        <div key={index}>
+                            <span className="rounded-sm bg-gray-200 m-1 px-1">{equipmentName}</span>
+                            <button className="print:hidden"
+                                    onClick={() => {
+                                        formData.equipments.splice(index, 1);
+                                        setFormData({...formData});
+                                    }}
+                            >&times;</button>
+                        </div>
+                    ))}
                 </div>
             </div>
             <div className="mb-4 print:hidden">

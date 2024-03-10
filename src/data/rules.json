@@ -2,7 +2,12 @@
   {
     "name": "Parry",
     "type": "equipment",
-    "description": "After receiving a hit the model armed with a sword may roll a D6. If the score is greater than the hit roll, the model has parried the blow, and that attack is discarded. A model may not parry attacks made with double or more its own strength"
+    "description": "After receiving a hit the model armed with a sword may roll a D6. If the score is greater than the hit roll, the model has parried the blow, and that attack is discarded. A model may not parry attacks made with double or more its own strength."
+  },
+  {
+    "name": "Concussion",
+    "type": "equipment",
+    "description": "Hammers and other bludgeoning weapons are excellent to use for striking your enemy senseless. When using a hammer, club or mace, a roll of 2-4 is treated as stunned when rolling to see the extent of a model's injuries."
   },
   {
     "name": "Leader",
@@ -33,5 +38,22 @@
     "name": "Light Arm Wound",
     "type": "seriousInjury",
     "description": "The warrior must miss the next game."
+  },
+  {
+    "name": "+1 Enemy Armour Save",
+    "type": "equipment",
+    "description": "+1 to enemy armour saves and a 6+ armour save if he has none normally."
+  },
+  {
+    "name": "Strike to Injure",
+    "type": "skill",
+    "warbandType": "",
+    "description": "Lands his future blows with uncanny accuracy. Add +1 to all injury rolls caused by the model in hand-to-hand combat."
+  },
+  {
+    "name": "Infiltration",
+    "type": "skill",
+    "warbandType": "Skaven",
+    "description": "Always placed on the battlefield after the opposing warband and can be placed anywhere on the table as long as it is out of sight of the opposing warband and more than 12\" away from any enemy model. If both players have models which infiltrate, roll a D6 for each, and the lowest roll sets up first."
   }
 ]
