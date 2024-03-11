@@ -8,6 +8,7 @@ import rules from "../data/rules.json"
 import Name from "../components/warband/name"
 import Type from "../components/warband/type"
 import Warrior from "../components/warband/warrior"
+import ClosePill from "../components/warband/closePill";
 
 export default function ConfigPage () {
     const [feedback, setFeedback] = useState()
@@ -330,15 +331,15 @@ export default function ConfigPage () {
         <div className="w-960 p-8">
             <div>{feedback}</div>
             <div className="md:flex gap-6 mb-4">
-                <div className="border-2 flex flex-1 p-2 border-black">
+                <div className="border flex flex-1 p-2 border-black">
                     <Name handleChange={handleChange} name={formData.name}/>
                 </div>
-                <div className="border-2 flex flex-2 p-2 border-black">
+                <div className="border flex flex-2 p-2 border-black">
                     <Type handleChangeType={handleChangeType} warbandTypes={warbandTypes} type={formData.type}/>
                 </div>
             </div>
             <div className="md:flex gap-6 mb-4">
-                <div className="flex-none border-2 p-2 border-black">
+                <div className="flex-none border p-2 border-black">
                     <h2 className="uppercase text-center">Treasury:</h2>
                     <div className="border-b border-slate-300 mb-2 pb-2">
                         <p>Gold crowns: {calculateRemainingGold()}</p>
@@ -413,13 +414,13 @@ export default function ConfigPage () {
                         Sell
                     </button>
                 </div>
-                <div className="flex-none border-2 p-2 border-black">
+                <div className="flex-none border p-2 border-black">
                     <h2 className="uppercase">Warband Rating:</h2>
                     <p>Total experience: {getTotalExperience()}</p>
                     <p className="border-b border-slate-300 pb-2 mb-2">Members {getMemberCount()} &times; 5</p>
                     <p>Rating: {getWarbandRating()}</p>
                 </div>
-                <div className="flex-1 border-2 p-2 border-black">
+                <div className="flex-1 border p-2 border-black">
                     <h2 className="uppercase">Stored Equipment:</h2>
                     <select
                         className="print:hidden max-w-16 p-1 border border-black rounded"
@@ -439,18 +440,17 @@ export default function ConfigPage () {
                             <option value={equipment.name} key={index}>{equipment.name}</option>
                         ))}
                     </select>
-                    <div className="flex">
+                    <div className="flex gap-1 mt-1">
 
                     {formData.equipments.map((equipmentName, index) => (
-                        <span key={index} className="rounded bg-gray-200 m-1 px-1 leading-none py-1 flex">
-                            <span className="flex-grow align-middle">{equipmentName}</span>
-                            <span className="print:hidden font-bold cursor-pointer text-xl leading-none ml-1 flex-shrink text-rose-700"
-                                    onClick={() => {
-                                        formData.equipments.splice(index, 1);
-                                        setFormData({...formData});
-                                    }}
-                            >&times;</span>
-                        </span>
+                        <ClosePill
+                            key={index}
+                            name={equipmentName}
+                            handleClick={() => {
+                                formData.equipments.splice(index, 1);
+                                setFormData({...formData});
+                            }}
+                        />
                     ))}
 
                     </div>
