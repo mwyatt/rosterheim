@@ -1,5 +1,15 @@
 [
   {
+    "name": "Burn The Witch",
+    "type": "warrior",
+    "description": "A witch hunter captain hates all models who can cast spells."
+  },
+  {
+    "name": "Perfect Killer",
+    "type": "warrior",
+    "description": "Always has an extra -1 modifier to any armour save the enemy has to take against wounds the inflicted (both with shooting and close combat weapons)."
+  },
+  {
     "name": "Parry",
     "type": "equipment",
     "description": "After receiving a hit the model armed with a sword may roll a D6. If the score is greater than the hit roll, the model has parried the blow, and that attack is discarded. A model may not parry attacks made with double or more its own strength."
@@ -20,24 +30,259 @@
     "description": "You are a wizard! See the magic section for details."
   },
   {
-    "name": "Scorpion Tail",
+    "name": "Fear",
     "type": "warrior",
-    "description": "Make an extra strength 5 attack in each hand-to-hand combat phase. If the model hit by the tail is immune to poison, the strength of the hit is reduced to 2."
+    "description": "Terrifying to behold and cause fear. See the psycology section for details."
+  },
+  {
+    "name": "Crazed",
+    "type": "warrior",
+    "description": "Driven insane and know no fear. Automatically pass leadership tests."
+  },
+  {
+    "name": "Poison",
+    "type": "equipment",
+    "description": "If you roll a 6 on the to hit roll the victim is automatically wounded. Can't cause critical hits. Armour save -1 (5+ becomes 4+, no save becomes 6+)."
+  },
+  {
+    "name": "Stealthy",
+    "type": "equipment",
+    "description": "Can fire while hidden without revealing his position. The target model can take an initiative test to try and spot the hidden model."
+  },
+  {
+    "name": "Pair",
+    "type": "equipment",
+    "description": "One in each hand, gets an additional attack."
+  },
+  {
+    "name": "Climb",
+    "type": "equipment",
+    "description": "Add +1 to initiative while making a climb test."
+  },
+  {
+    "name": "Cumbersome",
+    "type": "equipment",
+    "description": "May not use any other weapons in the entire battle."
+  },
+  {
+    "name": "Venemous",
+    "type": "equipment",
+    "description": "Permanently coated in black lotus (see equipment section). No additional poison can be applied."
+  },
+  {
+    "name": "Daemon Soul",
+    "type": "equipment",
+    "description": "This gives him a 4+ save against the effects of spells or prayers."
+  },
+  {
+    "name": "Cloven Hoofs",
+    "type": "equipment",
+    "description": "The warrior gains +1 movement."
+  },
+  {
+    "name": "Tentacle",
+    "type": "equipment",
+    "description": "One of the mutant's arms ends in a tentacle. He may grapple his opponent to close combat to reduce his attacks by -1, down to a minimum of 1. The mutant may decide which attack his opponent loses."
+  },
+  {
+    "name": "Blackblood",
+    "type": "equipment",
+    "description": "If the model loses a wound in close combat, anyone in base contact with the model suffers a strength 3 hit (no critical hits from the spurting corrosive blood."
+  },
+  {
+    "name": "Spines",
+    "type": "equipment",
+    "description": "Any model in base contact with he mutant suffers an automatic strength 1 hit at the beginning of each close combat phase. Spines will never cause critical hits."
+  },
+  {
+    "name": "Extra Arm",
+    "type": "equipment",
+    "description": "The mutant may use any single-handed weapon in the extra arm, giving him +1 attack when fighting in hand-to-hand combat. Alternatively, he may carry a shield or a buckler in the extra arm. If a possessed chooses to do this, he gains an extra attack but still cannot carry a weapon."
+  },
+  {
+    "name": "Hideous",
+    "type": "equipment",
+    "description": "The mutant causes fear. See the psychology section for details."
+  },
+  {
+    "name": "First Free",
+    "type": "equipment",
+    "description": "The first one is free!"
+  },
+  {
+    "name": "Cutting Edge",
+    "type": "equipment",
+    "description": "Extra save modifier of -1, so a model with strength 4 using an axe has a -2 save modifier when he hits an opponent in hand-to-hand combat."
+  },
+  {
+    "name": "Two-Handed",
+    "type": "warrior",
+    "description": "User strength +2. A model armed with a double-handed weapon may not use a shield, buckler or additional weapon in close combat. If the model is equipped with a shield he will still get a +1 bonus to his armour save against shooting."
+  },
+  {
+    "name": "Strike First",
+    "type": "warrior",
+    "description": "Strikes first in he first turn of hand-to-hand combat."
+  },
+  {
+    "name": "Strike Last",
+    "type": "warrior",
+    "description": "Double-handed weapons are so heavy that the model using them always strikes last, even when charging."
+  },
+  {
+    "name": "Unweildy",
+    "type": "warrior",
+    "description": "May only use a shield or a buckler in his other hand. He may not use a second weapon."
+  },
+  {
+    "name": "Cavalry Bonus",
+    "type": "warrior",
+    "description": "If using the rules for mounted models, a mounted warrior armed with a spear receives a +1 strength bonus when he charges. This bonus only applies for that turn."
+  },
+  {
+    "name": "Bow",
+    "type": "warrior",
+    "description": "Range 24\" and Strength 3."
+  },
+  {
+    "name": "Short Bow",
+    "type": "warrior",
+    "description": "Range 16\" and Strength 3."
+  },
+  {
+    "name": "Heavy",
+    "type": "warrior",
+    "description": "+2 strength bonus but tiring to use and only has effect for the first turn of each hand-to-hand combat."
+  },
+  {
+    "name": "Pack Size",
+    "type": "warrior",
+    "description": "You can recruit as many giant rats as you wish."
+  },
+  {
+    "name": "Fire Twice At Half Range",
+    "type": "equipment",
+    "description": "It not moved in the movement phase, it may fire twice at half range (9\"). Each shot is -1 to hit."
+  },
+  {
+    "name": "Thrown Weapon",
+    "type": "equipment",
+    "description": "No penalties for range or moving as these weapons are perfectly balanced for throwing. Cannot be used in hand-to-hand combat."
+  },
+  {
+    "name": "No Experience",
+    "type": "warrior",
+    "description": "Does not gain experience."
+  },
+  {
+    "name": "Large Target",
+    "type": "warrior",
+    "description": "Large target as defined in the shooting rules."
+  },
+  {
+    "name": "Stupidity",
+    "type": "injury",
+    "description": "Subject to stupidity unless a friendly hero is within 6\"."
+  },
+  {
+    "name": "Avoid Stun",
+    "type": "warrior",
+    "description": "Special 4+ save against being stunned. If the save is made, treat the stunned result as knocked down instead. This save is not modified by the opponents strength."
   },
   {
     "name": "Leg Wound",
-    "type": "seriousInjury",
+    "type": "injury",
     "description": "The warrior's leg is broken. He suffers a -1 movement characteristic penalty from now on."
   },
   {
     "name": "Arm Amputation",
-    "type": "seriousInjury",
+    "type": "injury",
     "description": "The warrior may only use a single one-handed weapon from now on."
   },
   {
     "name": "Light Arm Wound",
-    "type": "seriousInjury",
+    "type": "injury",
     "description": "The warrior must miss the next game."
+  },
+  {
+    "name": "Frenzy",
+    "type": "injury",
+    "description": "See psycology section for details."
+  },
+  {
+    "name": "Smashed Leg - Can't Run",
+    "type": "injury",
+    "description": "May not run anymore but may still charge."
+  },
+  {
+    "name": "Smashed Leg - Miss Next Game",
+    "type": "injury",
+    "description": "Miss the next game."
+  },
+  {
+    "name": "Chest Wound",
+    "type": "injury",
+    "description": "Toughness reduced -1."
+  },
+  {
+    "name": "Blinded In One Eye",
+    "type": "injury",
+    "description": "Ballistic skill reduced -1. If blinded again must retire from the warband."
+  },
+  {
+    "name": "Old Battle Wound",
+    "type": "injury",
+    "description": "This wound will prevent them from fighting if you roll a 1 at the start of any battle."
+  },
+  {
+    "name": "Nervous Condition",
+    "type": "injury",
+    "description": "Initiative is reduced by -1."
+  },
+  {
+    "name": "Hand Injury",
+    "type": "injury",
+    "description": "Weapon skill is reduced by -1."
+  },
+  {
+    "name": "Deep Wound",
+    "type": "injury",
+    "description": "Must miss the next D3 games while recovering, may do nothing at all while recovering."
+  },
+  {
+    "name": "Robbed",
+    "type": "injury",
+    "description": "Manages to escape, but all weapons armour and equipment are lost."
+  },
+  {
+    "name": "Bitter Enemy 1-3",
+    "type": "injury",
+    "description": "Hates the invididual who caused the injury. If its a henchman he hates the leader instead."
+  },
+  {
+    "name": "Bitter Enemy 4",
+    "type": "injury",
+    "description": "Hates the leader of the warband."
+  },
+  {
+    "name": "Bitter Enemy 5",
+    "type": "injury",
+    "description": "Hates the entire warband."
+  },
+  {
+    "name": "Bitter Enemy 6",
+    "type": "injury",
+    "description": "Hates all warbands of that type."
+  },
+  {
+    "name": "Hardened",
+    "type": "injury",
+    "description": "Immune to fear."
+  },
+  {
+    "name": "Horrible Scars",
+    "type": "injury",
+    "description": "Causes fear."
   },
   {
     "name": "+1 Enemy Armour Save",
@@ -45,10 +290,238 @@
     "description": "+1 to enemy armour saves and a 6+ armour save if he has none normally."
   },
   {
+    "name": "Combat Master",
+    "type": "skill",
+    "warbandType": "",
+    "description": "Add +1 to all injury rolls caused by the model in hand-to-hand combat."
+  },
+  {
+    "name": "Weapons Training",
+    "type": "skill",
+    "warbandType": "",
+    "description": "May use any hand-to-hand weapon without not just those in the equipment options."
+  },
+  {
+    "name": "Web Of Steel",
+    "type": "skill",
+    "warbandType": "",
+    "description": "+1 to all rolls on critical hit tables in hand-to-hand combat."
+  },
+  {
+    "name": "Expert Swordsman",
+    "type": "skill",
+    "warbandType": "",
+    "description": "Re-roll all missed attacks if using a sword in hand-to-hand combat of the turn that he charges. Only applies to normal swords or weeping blades and not double handed or other weapons."
+  },
+  {
+    "name": "Step Aside",
+    "type": "skill",
+    "warbandType": "",
+    "description": "Each time suffers a wound in close combat he may make an additional saving throw of 5+. Save is never modified and it taken after all other armour saves."
+  },
+  {
+    "name": "Quick Shot",
+    "type": "skill",
+    "warbandType": "",
+    "description": "Shoot twice per turn with a bow or crossbow (but not a crossbow pistol)."
+  },
+  {
+    "name": "Pistoller",
+    "type": "skill",
+    "warbandType": "",
+    "description": "If equipped with a brace of pistols he may fire twice in the shooting phase (normal reloading rules). If has a single pistol may fire it the same turn it was reloaded."
+  },
+  {
+    "name": "Eagle Eyes",
+    "type": "skill",
+    "warbandType": "",
+    "description": "Adds +6\" to the range of any missile weapon he uses."
+  },
+  {
+    "name": "Weapons Expert",
+    "type": "skill",
+    "warbandType": "",
+    "description": "May use any missle weapon."
+  },
+  {
+    "name": "Nimble",
+    "type": "skill",
+    "warbandType": "",
+    "description": "May move and fire with weapons that are normally only used if the firer has not moved. Cant combine this with Quick Shot skill."
+  },
+  {
+    "name": "Trick Shooter",
+    "type": "skill",
+    "warbandType": "",
+    "description": "Ignore all modifiers for cover when shooting."
+  },
+  {
+    "name": "Hunter",
+    "type": "skill",
+    "warbandType": "",
+    "description": "May fire each turn with a handgun or hochland long rifle."
+  },
+  {
+    "name": "Knife-Fighter",
+    "type": "skill",
+    "warbandType": "",
+    "description": "Can throw up to 3 knives or stars and may divide shots between targets within range. Can't be combined with Quick Shot skill."
+  },
+  {
+    "name": "Battle Tongue",
+    "type": "skill",
+    "warbandType": "",
+    "description": "Leader only, increases range of leader ability by 6\". Undead leaders may not use this skill."
+  },
+  {
+    "name": "Sorcery",
+    "type": "skill",
+    "warbandType": "",
+    "description": "Heroes who can cast only. Gains +1 to rolls when trying to cast spells. Sisters of Sigmar and Warrior-Priests may not use this."
+  },
+  {
+    "name": "Streetwise",
+    "type": "skill",
+    "warbandType": "",
+    "description": "+2 to the roll which determines the chance of finding rare items."
+  },
+  {
+    "name": "Haggle",
+    "type": "skill",
+    "warbandType": "",
+    "description": "Deduct 2D6 gold from the price of any single item (to a minimum of 1) once per post barde sequence."
+  },
+  {
+    "name": "Arcane Lore",
+    "type": "skill",
+    "warbandType": "",
+    "description": "Witch Hunters, Sisters of Sigmar and Warrior-Priests may not use this skill. May learn Lesser Magic if he owns a Tome of Magic"
+  },
+  {
+    "name": "Wyrdstone Hunter",
+    "type": "skill",
+    "warbandType": "",
+    "description": "May reroll one dice when rolling on the exploration chart. The second result stands."
+  },
+  {
+    "name": "Warrior Wizard",
+    "type": "skill",
+    "warbandType": "",
+    "description": "This skill may only be taken by spellcasters. The mental powers of the wizard allow him to wear armour and cast spells."
+  },
+  {
+    "name": "Mighty Blow",
+    "type": "skill",
+    "warbandType": "",
+    "description": "Has a +1 Strength bonus in close combat (excluding pistols). As his Strength is used for close combat weapons, the bonus applies to all such weapons."
+  },
+  {
+    "name": "Pit Fighter",
+    "type": "skill",
+    "warbandType": "",
+    "description": "Adds +1 to his WS and +1 to his Attacks if he is fighting inside buildings or ruins. It’s a good idea to define which bits of your terrain collection count as ‘buildings or ruins’ at the start of a battle to avoid confusion later."
+  },
+  {
+    "name": "Resilient",
+    "type": "skill",
+    "warbandType": "",
+    "description": "Deduct -1 Strength from all hits against him in close combat. This does not affect armour save modifiers."
+  },
+  {
+    "name": "Fearsome",
+    "type": "skill",
+    "warbandType": "",
+    "description": "Causes fear in opposing models."
+  },
+  {
+    "name": "Strongman",
+    "type": "skill",
+    "warbandType": "",
+    "description": "May use a double-handed weapon without the usual penalty of always striking last. Work out order of battle as you would with other weapons."
+  },
+  {
+    "name": "Unstoppable Charge",
+    "type": "skill",
+    "warbandType": "",
+    "description": "When he charges, the warrior is almost impossible to halt. He adds +1 to his Weapon Skill when charging"
+  },
+  {
+    "name": "Leap",
+    "type": "skill",
+    "warbandType": "",
+    "description": "The warrior may leap D6\" in the movement phase in addition to his normal movement. He may move and leap, run and leap, or charge and leap, but he can only leap once per turn. A leaping warrior may jump over opposing man-sized models, including enemies, and obstacles 1\" high, without penalty. The leap may also be used to leap over gaps, but in this case you must commit the warrior to making the leap before rolling the dice to see how far he jumps. If he fails to make it all the way across, he falls through the gap (see page 28)."
+  },
+  {
+    "name": "Sprint",
+    "type": "skill",
+    "warbandType": "",
+    "description": "The warrior may triple his Movement rate when he runs or charges, rather than doubling it as normal."
+  },
+  {
+    "name": "Acrobat",
+    "type": "skill",
+    "warbandType": "",
+    "description": "May fall or jump from a height of up to 12\" without taking any damage if he passes a single Initiative test, and can re-roll failed Diving Charge rolls. He can still only make a diving charge from a height of up to 6\"."
+  },
+  {
+    "name": "Lightning Reflexes",
+    "type": "skill",
+    "warbandType": "",
+    "description": "If the warrior is charged he will ‘strike first’ against those that charged that turn. As the charger(s) will also normally ‘strike first’ (for charging), the order of attack between the charger(s) and the warrior with this skill will be determined by comparing Initiative values. "
+  },
+  {
+    "name": "Jump Up",
+    "type": "skill",
+    "warbandType": "",
+    "description": "The warrior can regain his footing in an instant, springing to his feet immediately if he is knocked down. The warrior may ignore knocked down results when rolling for injuries, unless he is knocked down because of a successful save from wearing a helmet or because he has the No Pain special rule."
+  },
+  {
+    "name": "Dodge",
+    "type": "skill",
+    "warbandType": "",
+    "description": "Can avoid any hits from a missile weapon on a D6 roll of 5+. Note that this roll is taken against missiles as soon as a hit is scored to see whether the warrior dodges it or not, before rolling to wound, and before any effects from other skills or equipment (such as lucky charms)."
+  },
+  {
+    "name": "Scale Sheer Surfaces",
+    "type": "skill",
+    "warbandType": "",
+    "description": "He can climb up or down a height equal to twice his normal Movement, and does not need to make Initiative tests when doing so."
+  },
+  {
     "name": "Strike to Injure",
     "type": "skill",
     "warbandType": "",
     "description": "Lands his future blows with uncanny accuracy. Add +1 to all injury rolls caused by the model in hand-to-hand combat."
+  },
+  {
+    "name": "Black Hunger",
+    "type": "skill",
+    "warbandType": "Skaven",
+    "description": "Declare use at beginning of turn. Add +1 attack and +D3\" to his total movement for the duration of the turn but suffers D3 strength 3 hits with no armour save possible at the end of the turn."
+  },
+  {
+    "name": "Tail Fighting",
+    "type": "skill",
+    "warbandType": "Skaven",
+    "description": "May wield a shield, knife or sword with its tail. Gains an extra attack with the appropriate weapon or a +1 bonus to his armour save."
+  },
+  {
+    "name": "Wall Runner",
+    "type": "skill",
+    "warbandType": "Skaven",
+    "description": "Does not need to take initiative tests to climb walls or other sheer surfaces."
+  },
+  {
+    "name": "Infiltration",
+    "type": "skill",
+    "warbandType": "Skaven",
+    "description": "Always placed after the opposing warband and can be placed anywhere on the table as long as it is out of sight of the opposing warband and more than 12\" away from any enemy model. If both players have models which infiltrate, roll a D6 for each, and the lowest roll sets up first."
+  },
+  {
+    "name": "Art Of Silent Death",
+    "type": "skill",
+    "warbandType": "Skaven",
+    "description": "In hand-to-hand combat the model can fight with bare paws without any penalties and counts as having two weapons (+1 attack). In addition, a hero with this skill will cause a critical hit on a to wound roll of 5-6 instead of 6. this skill may be used in conjunction with the eshin fighting claws (+2 attacks instead of +1)."
   },
   {
     "name": "Infiltration",

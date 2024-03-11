@@ -4,7 +4,9 @@ export default function Type({ handleChangeType, type, warbandTypes }) {
     return (
         <>
             <h2 className="uppercase mr-2">Warband Type:</h2>
-            <select className="print:hidden" name="type" onChange={handleChangeType} value={type}>
+            <select
+                className="print:hidden p-1 border border-black rounded w-full"
+                name="type" onChange={handleChangeType} value={type}>
                 <option value="">Select Type</option>
                 {warbandTypes.map((warbandType, index) => (
                     <option value={warbandType} key={index}>{warbandType}</option>
