@@ -54,11 +54,11 @@ export default function Warrior({
     }
 
     return (
-        <div className="mb-3">
+        <div className="mb-3 break-inside-avoid">
             <div className="text-right print:hidden">
                 <button className="text-rose-700 text-3xl" onClick={() => handleWarriorRemove(warriorIndex)}>&times;</button>
             </div>
-            <div className="border border-black md:flex">
+            <div className="border border-black sm:flex">
                 <div className="border-r border-black">
                     <div className="border-b border-black flex p-1">
                         <span className="uppercase mr-2">Name</span>
@@ -74,11 +74,11 @@ export default function Warrior({
                         <span className="screen:hidden print:show">{warrior.name}</span>
                     </div>
                     <div className="flex border-b border-black">
-                        <div className="border-r border-black p-1">
+                        <div className="border-r border-black p-1 pr-2">
                             <span className="uppercase pr-2">Number</span>
                             <span
                                 className={[
-                                    warriorTemplate.isHero ? '' : 'screen:hidden'
+                                    warriorTemplate.isHero ? '' : 'screen:hidden',
                                 ].join(' ')}
                             >{warrior.qty}</span>
                             <select
@@ -174,8 +174,8 @@ export default function Warrior({
                     </div>
                 </div>
                 <div className="flex flex-grow">
-                    <div className="border-r border-b border-black p-2">
-                        <h2 className="uppercase">Equipment</h2>
+                    <div className="border-r border-black p-2">
+                        <h2 className="uppercase mb-2">Equipment</h2>
                         <select
                             className="print:hidden max-w-16 p-1 border border-black rounded"
                             onChange={(e) => handleEquipmentChoose(warriorIndex, e.target.value)}
@@ -185,7 +185,7 @@ export default function Warrior({
                                 <option value={equipment.name} key={index}>{equipment.name}</option>
                             ))}
                         </select>
-                        <div className="flex gap-1 mt-1">
+                        <div className="flex flex-wrap gap-1 mt-1">
                         {warrior.equipments.map((warriorEquipmentName, warriorEquipmentIndex) => (
                             <ClosePill
                                 key={warriorEquipmentIndex}
@@ -195,29 +195,35 @@ export default function Warrior({
                         ))}
                         </div>
                     </div>
-                    <div className="border-b border-black p-2 flex-grow">
-                        <h2 className="uppercase">Special Rules</h2>
+                    <div className="p-2 flex-grow">
+                        <h3 className="uppercase mb-2">Special Rules</h3>
+                        <div className="flex flex-wrap gap-1">
                         {getRules().map((rule, index) => (
-                            <span className="break-all text-balance rounded bg-gray-200 m-1 px-1" key={index}>{rule.name}</span>
+                            <ClosePill name={rule.name} key={index} />
                         ))}
+                        </div>
                     </div>
                 </div>
             </div>
             <div className="border-l border-r border-b border-black p-2">
-                <span
-                    className="text-xl border border-black px-2 m-1 rounded print:hidden"
-                    onClick={function (e) {
-                        handleChangeWarrior(warriorIndex, 'exp', warrior.exp - 1)
-                    }}
-                >-</span>
-                <span>{warriorTemplate.startExp + warrior.exp}</span>
-                <span
-                    className="text-xl border border-black px-2 m-1 rounded print:hidden"
-                    onClick={function (e) {
-                        handleChangeWarrior(warriorIndex, 'exp', warrior.exp + 1)
-                    }}
-                >+</span>
-                {getExpTable()}
+                <div className="flex mb-2 w-20 h-6 print:hidden">
+                    <span
+                        className="text-xl border border-black leading-none flex-1 text-center rounded"
+                        onClick={function (e) {
+                            handleChangeWarrior(warriorIndex, 'exp', warrior.exp - 1)
+                        }}
+                    >-</span>
+                    <span className="flex-1 text-center">{warriorTemplate.startExp + warrior.exp}</span>
+                    <span
+                        className="text-xl border border-black flex-1 leading-none text-center rounded"
+                        onClick={function (e) {
+                            handleChangeWarrior(warriorIndex, 'exp', warrior.exp + 1)
+                        }}
+                    >+</span>
+                </div>
+                <div>
+                    {getExpTable()}
+                </div>
             </div>
         </div>
     )

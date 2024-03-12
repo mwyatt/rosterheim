@@ -328,9 +328,9 @@ export default function ConfigPage () {
     }
 
     return (
-        <div className="w-960 p-8">
+        <div className="w-960 screen:sm:p-6 p-2">
             <div>{feedback}</div>
-            <div className="md:flex gap-6 mb-4">
+            <div className="sm:flex gap-6 mb-4">
                 <div className="border flex flex-1 p-2 border-black">
                     <Name handleChange={handleChange} name={formData.name}/>
                 </div>
@@ -338,8 +338,11 @@ export default function ConfigPage () {
                     <Type handleChangeType={handleChangeType} warbandTypes={warbandTypes} type={formData.type}/>
                 </div>
             </div>
-            <div className="md:flex gap-6 mb-4">
-                <div className="flex-none border p-2 border-black">
+            <div className="sm:flex gap-6 mb-4">
+                <div className={[
+                    " border p-2 border-black",
+                    formData.equipments.length ? 'flex-none' : 'flex-1',
+                ].join(' ')}>
                     <h2 className="uppercase text-center">Treasury:</h2>
                     <div className="border-b border-slate-300 mb-2 pb-2">
                         <p>Gold crowns: {calculateRemainingGold()}</p>
@@ -414,13 +417,19 @@ export default function ConfigPage () {
                         Sell
                     </button>
                 </div>
-                <div className="flex-none border p-2 border-black">
-                    <h2 className="uppercase">Warband Rating:</h2>
+                <div className={[
+                    " border p-2 border-black",
+                    formData.equipments.length ? 'flex-none' : 'flex-1',
+                ].join(' ')}>
+                    <h2 className="uppercase">Rating:</h2>
                     <p>Total experience: {getTotalExperience()}</p>
                     <p className="border-b border-slate-300 pb-2 mb-2">Members {getMemberCount()} &times; 5</p>
                     <p>Rating: {getWarbandRating()}</p>
                 </div>
-                <div className="flex-1 border p-2 border-black">
+                <div className={[
+                    "flex-1 border p-2 border-black",
+                    formData.equipments.length ? '' : 'print:hidden'
+                ].join(' ')}>
                     <h2 className="uppercase">Stored Equipment:</h2>
                     <select
                         className="print:hidden max-w-16 p-1 border border-black rounded"
@@ -440,7 +449,7 @@ export default function ConfigPage () {
                             <option value={equipment.name} key={index}>{equipment.name}</option>
                         ))}
                     </select>
-                    <div className="flex gap-1 mt-1">
+                    <div className="flex flex-wrap gap-1 mt-1">
 
                     {formData.equipments.map((equipmentName, index) => (
                         <ClosePill
