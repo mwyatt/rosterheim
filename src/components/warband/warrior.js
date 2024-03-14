@@ -12,6 +12,7 @@ export default function Warrior({
                                     handleEquipmentChoose,
                                     handleEquipmentRemove,
                                     handleWarriorRemove,
+                                    moveEquipmentToStash,
                                     rules,
                                     getWarriorRuleNames
                                 }) {
@@ -185,6 +186,11 @@ export default function Warrior({
                                 <option value={equipment.name} key={index}>{equipment.name}</option>
                             ))}
                         </select>
+                        <span
+                            onClick={() => moveEquipmentToStash(warriorIndex)}
+                        >
+                            Transfer to stash
+                        </span>
                         <div className="flex flex-wrap gap-1 mt-1">
                         {warrior.equipments.map((warriorEquipmentName, warriorEquipmentIndex) => (
                             <ClosePill

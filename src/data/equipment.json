@@ -106,18 +106,16 @@
   },
   {
     "name": "Bow",
-    "description": "A weapon for shooting arrows, typically made of a curved piece of wood whose ends are joined by a taut string.",
+    "description": "Range 24\" and Strength 3.",
     "gold": 15,
     "rules": [
-      "Bow"
     ]
   },
   {
     "name": "Short Bow",
-    "description": "A weapon for shooting arrows, typically made of a curved piece of wood whose ends are joined by a taut string.",
+    "description": "Range 16\" and Strength 3.",
     "gold": 10,
     "rules": [
-      "Short Bow"
     ]
   },
   {
@@ -128,7 +126,7 @@
   },
   {
     "name": "Heavy Armor",
-    "description": "Heavy armor is a type of armor that is worn on the body to protect it from injury. Basic D6 saving throw of 5+. If wearing a shield too suffers a -1 movement penalty.",
+    "description": "Basic D6 saving throw of 5+. If wearing a shield too suffers a -1 movement penalty.",
     "gold": 50,
     "rules": []
   },
@@ -165,10 +163,9 @@
   },
   {
     "name": "Daemon Soul",
-    "description": "A deamon lives within the mutant's soul.",
+    "description": "This gives him a 4+ save against the effects of spells or prayers.",
     "gold": 20,
     "rules": [
-      "Daemon Soul"
     ]
   },
   {
@@ -182,7 +179,6 @@
     "description": "The warrior gains +1 movement.",
     "gold": 40,
     "rules": [
-      "Cloven Hoofs"
     ]
   },
   {
@@ -190,7 +186,6 @@
     "description": "One of the mutant's arms ends in a tentacle. He may grapple his opponent to close combat to reduce his attacks by -1, down to a minimum of 1. The mutant may decide which attack his opponent loses.",
     "gold": 35,
     "rules": [
-      "Tentacle"
     ]
   },
   {
@@ -198,7 +193,6 @@
     "description": "If the model loses a wound in close combat, anyone in base contact with the model suffers a strength 3 hit (no critical hits from the spurting corrosive blood.",
     "gold": 30,
     "rules": [
-      "Blackblood"
     ]
   },
   {
@@ -206,7 +200,6 @@
     "description": "Any model in base contact with he mutant suffers an automatic strength 1 hit at the beginning of each close combat phase. Spines will never cause critical hits.",
     "gold": 35,
     "rules": [
-      "Spines"
     ]
   },
   {
@@ -214,7 +207,6 @@
     "description": "The mutant may use any single-handed weapon in the extra arm, giving him +1 attack when fighting in hand-to-hand combat. Alternatively, he may carry a shield or a buckler in the extra arm. If a possessed chooses to do this, he gains an extra attack but still cannot carry a weapon.",
     "gold": 40,
     "rules": [
-      "Extra Arm"
     ]
   },
   {
@@ -222,7 +214,6 @@
     "description": "The mutant causes fear. See the psychology section for details.",
     "gold": 40,
     "rules": [
-      "Extra Arm"
     ]
   },
   {

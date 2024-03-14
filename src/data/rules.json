@@ -70,41 +70,6 @@
     "description": "Permanently coated in black lotus (see equipment section). No additional poison can be applied."
   },
   {
-    "name": "Daemon Soul",
-    "type": "equipment",
-    "description": "This gives him a 4+ save against the effects of spells or prayers."
-  },
-  {
-    "name": "Cloven Hoofs",
-    "type": "equipment",
-    "description": "The warrior gains +1 movement."
-  },
-  {
-    "name": "Tentacle",
-    "type": "equipment",
-    "description": "One of the mutant's arms ends in a tentacle. He may grapple his opponent to close combat to reduce his attacks by -1, down to a minimum of 1. The mutant may decide which attack his opponent loses."
-  },
-  {
-    "name": "Blackblood",
-    "type": "equipment",
-    "description": "If the model loses a wound in close combat, anyone in base contact with the model suffers a strength 3 hit (no critical hits from the spurting corrosive blood."
-  },
-  {
-    "name": "Spines",
-    "type": "equipment",
-    "description": "Any model in base contact with he mutant suffers an automatic strength 1 hit at the beginning of each close combat phase. Spines will never cause critical hits."
-  },
-  {
-    "name": "Extra Arm",
-    "type": "equipment",
-    "description": "The mutant may use any single-handed weapon in the extra arm, giving him +1 attack when fighting in hand-to-hand combat. Alternatively, he may carry a shield or a buckler in the extra arm. If a possessed chooses to do this, he gains an extra attack but still cannot carry a weapon."
-  },
-  {
-    "name": "Hideous",
-    "type": "equipment",
-    "description": "The mutant causes fear. See the psychology section for details."
-  },
-  {
     "name": "First Free",
     "type": "equipment",
     "description": "The first one is free!"
@@ -140,14 +105,9 @@
     "description": "If using the rules for mounted models, a mounted warrior armed with a spear receives a +1 strength bonus when he charges. This bonus only applies for that turn."
   },
   {
-    "name": "Bow",
-    "type": "warrior",
-    "description": "Range 24\" and Strength 3."
-  },
-  {
     "name": "Short Bow",
     "type": "warrior",
-    "description": "Range 16\" and Strength 3."
+    "description": ""
   },
   {
     "name": "Heavy",
