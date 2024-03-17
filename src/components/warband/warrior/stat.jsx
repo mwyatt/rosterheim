@@ -34,15 +34,15 @@ export default function Stat({
         title={isBoosted ? `boosted by ${warrior.stats[warriorTemplateStatKey]}` : ''}
         type="text"
         value={warriorStat + warriorTemplateStatValue}
-        onChange={function (e) {
+        onChange={function _() {
           //
         }}
-        onSelect={function (e) {
+        onSelect={function _(e) {
           e.target.select();
         }}
-        onKeyUp={function (e) {
+        onKeyUp={function _(e) {
           const number = parseInt(e.key, 10);
-          if (isNaN(number)) return;
+          if (Number.isNaN(number)) return;
           handleChangeWarrior(warriorIndex, 'stats', {
             ...warrior.stats,
             [warriorTemplateStatKey]: parseInt(e.key, 10) - warriorTemplateStatValue,

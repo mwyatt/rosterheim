@@ -28,24 +28,6 @@ export default function IndexPage({ params }) {
 
   const [filteredWarriorTemplates, setFilteredWarriorTemplates] = useState([]);
 
-  useEffect(() => {
-    const encoded = params.config;
-    if (encoded) {
-      const json = atob(encoded);
-      try {
-        const data = JSON.parse(json);
-        setFormData(data);
-        filterWarriorTemplates(data.type);
-      } catch (e) {
-        setFeedback('Invalid warband data in URL.');
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    handleSubmit();
-  }, [formData]);
-
   const moveEquipmentToStash = (warriorIndex) => {
     const warrior = formData.warriors[warriorIndex];
     const equipment = warrior.equipments.pop();
@@ -141,7 +123,7 @@ export default function IndexPage({ params }) {
         8: 100,
       },
     ];
-    for (let i = 0; i < sellMap.length; i++) {
+    for (let i = 0; i < sellMap.length; i+=1) {
       if (sellMap[i].check(warLen)) {
         if (selling > 8) {
           return sellMap[i][8];
@@ -149,6 +131,7 @@ export default function IndexPage({ params }) {
         return sellMap[i][selling];
       }
     }
+    throw new Error('Unexpected wyrdstone value calculation error.');
   };
 
   const sellWyrdstone = () => {
@@ -176,17 +159,17 @@ export default function IndexPage({ params }) {
 
     formData.warriors.map((warrior) => {
       const warriorTemplate = warriorTemplates.find(
-        (warriorTemplate) => warriorTemplate.type === warrior.warriorTemplateType,
+        (item) => item.type === warrior.warriorTemplateType,
       );
 
-      for (let i = 0; i < warrior.qty; i++) {
+      for (let i = 0; i < warrior.qty; i+=1) {
         costRows.push({
           name: warriorTemplate.type,
           gold: warriorTemplate.gold,
         });
 
         warrior.equipments.map((equipmentName) => {
-          const equipment = equipments.find((equipment) => equipment.name === equipmentName);
+          const equipment = equipments.find((item) => item.name === equipmentName);
           costRows.push({
             name: equipment.name,
             gold: equipment.gold,
@@ -210,11 +193,11 @@ export default function IndexPage({ params }) {
 
   const getWarriorRuleNames = (warrior) => {
     const warriorTemplate = warriorTemplates.find(
-      (warriorTemplate) => warriorTemplate.type === warrior.warriorTemplateType,
+      (item) => item.type === warrior.warriorTemplateType,
     );
     let ruleNames = warriorTemplate.rules;
     warrior.equipments.forEach((equipmentName) => {
-      const equipment = equipments.find((equipment) => equipment.name === equipmentName);
+      const equipment = equipments.find((item) => item.name === equipmentName);
       ruleNames = ruleNames.concat(equipment.rules);
     });
     warrior.rules.forEach((ruleName) => {
@@ -224,18 +207,18 @@ export default function IndexPage({ params }) {
   };
 
   const getUniqueRules = () => {
-    const ruleNames = formData.warriors.reduce((ruleNames, warrior) => ruleNames.concat(getWarriorRuleNames(warrior)), []);
+    const ruleNames = formData.warriors.reduce((items, warrior) => items.concat(getWarriorRuleNames(warrior)), []);
     return rules.filter((rule) => ruleNames.includes(rule.name));
   };
 
   const getUniqueEquipment = () => {
-    const equipmentNames = formData.warriors.reduce((equipmentNames, warrior) => equipmentNames.concat(warrior.equipments), []);
+    const equipmentNames = formData.warriors.reduce((items, warrior) => items.concat(warrior.equipments), []);
     return equipments.filter((equipment) => equipmentNames.includes(equipment.name));
   };
 
   const getTotalExperience = () => formData.warriors.reduce((total, warrior) => {
     const warriorTemplate = warriorTemplates.find(
-      (warriorTemplate) => warriorTemplate.type === warrior.warriorTemplateType,
+      (item) => item.type === warrior.warriorTemplateType,
     );
     return total + warrior.exp + warriorTemplate.startExp;
   }, 0);
@@ -246,7 +229,7 @@ export default function IndexPage({ params }) {
     let totalWarriorExp = 0;
     totalWarriorExp = formData.warriors.reduce((total, warrior) => {
       const warriorTemplate = warriorTemplates.find(
-        (warriorTemplate) => warriorTemplate.type === warrior.warriorTemplateType,
+        (item) => item.type === warrior.warriorTemplateType,
       );
       return total + ((warrior.exp + warriorTemplate.startExp) * warrior.qty);
     }, 0);
@@ -280,21 +263,21 @@ export default function IndexPage({ params }) {
     const json = JSON.stringify(formData);
     const base64 = btoa(json);
 
-    console.log({
-      length: base64.length,
-      base64,
-      json,
-      formData,
-    });
+    // console.log({
+    //   length: base64.length,
+    //   base64,
+    //   json,
+    //   formData,
+    // });
 
     window.history.pushState('', '', `${window.location.origin}/${base64}`);
   };
 
   const handleWarriorTemplateChoose = (warriorTemplateType) => {
     if (!warriorTemplateType) return;
-    const warriorTemplate = warriorTemplates.find((warriorTemplate) => warriorTemplate.type === warriorTemplateType);
+    const warriorTemplate = warriorTemplates.find((item) => item.type === warriorTemplateType);
 
-    formData.warriors = [...formData.warriors, {
+formData.warriors = [...formData.warriors, {
       warriorTemplateType: warriorTemplate.type,
       equipments: [],
       rules: [],
@@ -307,15 +290,14 @@ export default function IndexPage({ params }) {
   };
 
   const handleQtyChoose = (warriorIndex, qty) => {
-    qty = parseInt(qty, 10);
-    formData.warriors[warriorIndex].qty = qty;
+    formData.warriors[warriorIndex].qty = parseInt(qty, 10);
     setFormData({ ...formData });
   };
 
   const handleEquipmentChoose = (warriorIndex, equipmentName) => {
     if (!equipmentName) return;
     const alreadyAssigned = formData.warriors[warriorIndex].equipments.find(
-      (warriorEquipmentName) => warriorEquipmentName === equipmentName,
+      (item) => item === equipmentName,
     );
     if (alreadyAssigned) return;
     formData.warriors[warriorIndex].equipments = [
@@ -334,6 +316,24 @@ export default function IndexPage({ params }) {
     formData.warriors.splice(index, 1);
     setFormData({ ...formData });
   };
+
+  useEffect(() => {
+    const encoded = params.config;
+    if (encoded) {
+      const json = atob(encoded);
+      try {
+        const data = JSON.parse(json);
+        setFormData(data);
+        filterWarriorTemplates(data.type);
+      } catch (e) {
+        setFeedback('Invalid warband data in URL.');
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    handleSubmit();
+  }, [formData]);
 
   return (
     <div className="max-w-6xl mx-auto screen:sm:p-6 p-2">
@@ -359,7 +359,9 @@ export default function IndexPage({ params }) {
               {calculateRemainingGold()}
             </p>
             <div>
-              <span
+              <button
+                  type="button"
+
                 className="rounded border border-black px-1 m-1 print:hidden"
                 onClick={() => setInputData({
                   ...inputData,
@@ -369,7 +371,7 @@ export default function IndexPage({ params }) {
                 {inputData.costBreakdownOpen ? 'Hide' : 'Show'}
                 {' '}
                 Breakdown
-              </span>
+              </button>
 
               <div>
                 {inputData.costBreakdownOpen && (
@@ -383,8 +385,8 @@ export default function IndexPage({ params }) {
                       {formData.gold}
                     </div>
 
-                    {getCostRows().map((costRow, index) => (
-                      <div key={index}>
+                    {getCostRows().map((costRow) => (
+                      <div key={[costRow.name, costRow.gold].join('-')}>
                         <span>{costRow.name}</span>
                         {' '}
                         -
@@ -446,6 +448,7 @@ export default function IndexPage({ params }) {
             onChange={(e) => setInputData({ ...inputData, wyrdstone: parseInt(e.target.value, 10) })}
           />
           <button
+              type="button"
             className="rounded border border-black px-1 m-1 print:hidden"
             onClick={() => {
               setFormData({
@@ -461,6 +464,7 @@ export default function IndexPage({ params }) {
             Add
           </button>
           <button
+              type="button"
             className="rounded border border-black px-1 m-1 print:hidden"
             onClick={sellWyrdstone}
           >
@@ -514,7 +518,7 @@ export default function IndexPage({ params }) {
           </select>
           <div className="flex flex-wrap gap-1 mt-1">
 
-            {formData.equipments.map((equipmentName) => (
+            {formData.equipments.map((equipmentName, index) => (
               <ClosePill
                 key={equipmentName}
                 name={equipmentName}
@@ -549,7 +553,7 @@ export default function IndexPage({ params }) {
           <Warrior
             warrior={warrior}
             warriorIndex={warriorIndex}
-            key={warriorIndex}
+            key={[warrior.name, warrior.warriorTemplateType, warriorIndex].join('-')}
             warriorTemplates={warriorTemplates}
             warriorTypes={warriorTypes}
             equipments={equipments}

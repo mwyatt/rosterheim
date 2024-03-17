@@ -18,10 +18,10 @@ export default function Warrior({
   getWarriorRuleNames,
 }) {
   const warriorTemplate = warriorTemplates.find(
-    (warriorTemplate) => warriorTemplate.type === warrior.warriorTemplateType,
+    (item) => item.type === warrior.warriorTemplateType,
   );
   const warriorType = warriorTypes.find(
-    (warriorType) => warriorType.isHero === warriorTemplate.isHero,
+    (item) => item.isHero === warriorTemplate.isHero,
   );
 
   const getRules = () => {
@@ -31,7 +31,7 @@ export default function Warrior({
 
   const getExpTable = () => {
     const output = [];
-    for (let i = 1; i < (warriorType.expAvailable + 1); i++) {
+    for (let i = 1; i < (warriorType.expAvailable + 1); i+=1) {
       const filled = (warrior.exp + warriorTemplate.startExp) >= i;
       const advance = warriorType.expAdvances.find(
         (expAdvance) => expAdvance === i,
@@ -60,7 +60,7 @@ export default function Warrior({
   return (
     <div className="mb-3 break-inside-avoid">
       <div className="text-right print:hidden">
-        <button className="text-rose-700 text-3xl" onClick={() => handleWarriorRemove(warriorIndex)}>&times;</button>
+        <button type="button" className="text-rose-700 text-3xl" onClick={() => handleWarriorRemove(warriorIndex)}>&times;</button>
       </div>
       <div className="border border-black sm:flex">
         <div className="border-r border-black">
@@ -70,7 +70,7 @@ export default function Warrior({
               required
               className="print:hidden px-1 py-0 border-none"
               type="text"
-              onChange={function (e) {
+              onChange={function _(e) {
                 handleChangeWarrior(warriorIndex, 'name', e.target.value);
               }}
               value={warrior.name}
@@ -124,7 +124,7 @@ export default function Warrior({
             <div className="flex-1">
               <select
                 className="print:hidden p-1 border border-black rounded w-full"
-                onChange={function (e) {
+                onChange={function _(e) {
                   if (e.target.value === '') return;
                   handleChangeWarrior(warriorIndex, 'rules', [...new Set([
                     ...warrior.rules,
@@ -145,7 +145,7 @@ export default function Warrior({
             <div className="flex-1">
               <select
                 className="print:hidden p-1 border border-black rounded w-full"
-                onChange={function (e) {
+                onChange={function _(e) {
                   if (e.target.value === '') return;
                   handleChangeWarrior(warriorIndex, 'rules', [...new Set([
                     ...warrior.rules,
@@ -193,15 +193,16 @@ export default function Warrior({
                 <option value={equipment.name} key={equipment.name}>{equipment.name}</option>
               ))}
             </select>
-            <span
+            <button
+                type="button"
               onClick={() => moveEquipmentToStash(warriorIndex)}
             >
               Transfer to stash
-            </span>
+            </button>
             <div className="flex flex-wrap gap-1 mt-1">
               {warrior.equipments.map((warriorEquipmentName, warriorEquipmentIndex) => (
                 <ClosePill
-                  key={warriorEquipmentIndex}
+                  key={warriorEquipmentName}
                   name={warriorEquipmentName}
                   handleClick={() => handleEquipmentRemove(warriorIndex, warriorEquipmentIndex)}
                 />
@@ -220,23 +221,26 @@ export default function Warrior({
       </div>
       <div className="border-l border-r border-b border-black p-2">
         <div className="flex mb-2 w-20 h-6 print:hidden">
-          <span
+          <button
             className="text-xl border border-black leading-none flex-1 text-center rounded"
-            onClick={function (e) {
+            type="button"
+            onClick={function _() {
               handleChangeWarrior(warriorIndex, 'exp', warrior.exp - 1);
             }}
           >
             -
-          </span>
+          </button>
           <span className="flex-1 text-center">{warriorTemplate.startExp + warrior.exp}</span>
-          <span
+          <button
             className="text-xl border border-black flex-1 leading-none text-center rounded"
-            onClick={function (e) {
+            type="button"
+
+            onClick={function _() {
               handleChangeWarrior(warriorIndex, 'exp', warrior.exp + 1);
             }}
           >
             +
-          </span>
+          </button>
         </div>
         <div>
           {getExpTable()}

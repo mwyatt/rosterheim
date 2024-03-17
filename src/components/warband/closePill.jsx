@@ -9,12 +9,13 @@ export default function ClosePill({
       <span className="flex-grow">{name}</span>
       {handleClick
                 && (
-                <span
+                <button
+                    type="button"
                   className="print:hidden font-bold cursor-pointer text-xl leading-none ml-1 flex-shrink text-rose-700"
                   onClick={handleClick}
                 >
                   &times;
-                </span>
+                </button>
                 )}
     </span>
   );
