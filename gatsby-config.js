@@ -3,7 +3,7 @@
  */
 module.exports = {
   siteMetadata: {
-    title: `Warheim`,
+    title: `Rosterheim`,
     siteUrl: `https://stingray-app-ehbvm.ondigitalocean.app/`
   },
   plugins: [
