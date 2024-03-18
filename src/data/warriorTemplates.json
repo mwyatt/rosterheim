@@ -1,0 +1,249 @@
+[
+  {
+    "gold": 70,
+    "warbandType": "Possessed",
+    "type": "Magister",
+    "isHero": true,
+    "stats": {
+      "movement": 4,
+      "weaponSkill": 4,
+      "ballisticSkill": 4,
+      "strength": 3,
+      "toughness": 3,
+      "wounds": 1,
+      "initiative": 3,
+      "attacks": 1,
+      "leadership": 8
+    },
+    "startExp": 20,
+    "rules": ["Leader", "Wizard"]
+  },
+  {
+    "gold": 90,
+    "warbandType": "Possessed",
+    "type": "The Possessed",
+    "isHero": true,
+    "stats": {
+      "movement": 5,
+      "weaponSkill": 4,
+      "ballisticSkill": 0,
+      "strength": 4,
+      "toughness": 4,
+      "wounds": 2,
+      "initiative": 4,
+      "attacks": 2,
+      "leadership": 7
+    },
+    "startExp": 8,
+    "rules": ["Fear"]
+  },
+  {
+    "gold": 25,
+    "warbandType": "Possessed",
+    "type": "Mutant",
+    "isHero": true,
+    "stats": {
+      "movement": 4,
+      "weaponSkill": 3,
+      "ballisticSkill": 3,
+      "strength": 3,
+      "toughness": 3,
+      "wounds": 1,
+      "initiative": 3,
+      "attacks": 1,
+      "leadership": 7
+    },
+    "startExp": 0,
+    "rules": []
+  },
+  {
+    "gold": 35,
+    "warbandType": "Possessed",
+    "type": "Darksouls",
+    "isHero": false,
+    "stats": {
+      "movement": 4,
+      "weaponSkill": 2,
+      "ballisticSkill": 2,
+      "strength": 4,
+      "toughness": 3,
+      "wounds": 1,
+      "initiative": 3,
+      "attacks": 1,
+      "leadership": 6
+    },
+    "startExp": 0,
+    "rules": ["Crazed"]
+  },
+  {
+    "gold": 25,
+    "warbandType": "Possessed",
+    "type": "Brethren",
+    "isHero": false,
+    "stats": {
+      "movement": 4,
+      "weaponSkill": 3,
+      "ballisticSkill": 3,
+      "strength": 3,
+      "toughness": 3,
+      "wounds": 1,
+      "initiative": 3,
+      "attacks": 1,
+      "leadership": 7
+    },
+    "startExp": 0,
+    "rules": []
+  },
+  {
+    "gold": 45,
+    "warbandType": "Possessed",
+    "type": "Beastman",
+    "isHero": false,
+    "stats": {
+      "movement": 4,
+      "weaponSkill": 4,
+      "ballisticSkill": 3,
+      "strength": 3,
+      "toughness": 4,
+      "wounds": 2,
+      "initiative": 3,
+      "attacks": 1,
+      "leadership": 7
+    },
+    "startExp": 0,
+    "rules": []
+  },
+  {
+    "gold": 60,
+    "warbandType": "Skaven",
+    "type": "Assassin Adept",
+    "isHero": true,
+    "stats": {
+      "movement": 6,
+      "weaponSkill": 4,
+      "ballisticSkill": 4,
+      "strength": 4,
+      "toughness": 3,
+      "wounds": 1,
+      "initiative": 5,
+      "attacks": 1,
+      "leadership": 7
+    },
+    "startExp": 20,
+    "rules": ["Leader", "Perfect Killer"]
+  },
+  {
+    "gold": 40,
+    "warbandType": "Skaven",
+    "type": "Black Skaven",
+    "isHero": true,
+    "stats": {
+      "movement": 6,
+      "weaponSkill": 4,
+      "ballisticSkill": 3,
+      "strength": 4,
+      "toughness": 3,
+      "wounds": 1,
+      "initiative": 5,
+      "attacks": 1,
+      "leadership": 6
+    },
+    "startExp": 8,
+    "rules": []
+  },
+  {
+    "gold": 40,
+    "warbandType": "Skaven",
+    "type": "Eshin Sorcerer",
+    "isHero": true,
+    "stats": {
+      "movement": 5,
+      "weaponSkill": 3,
+      "ballisticSkill": 3,
+      "strength": 3,
+      "toughness": 3,
+      "wounds": 1,
+      "initiative": 4,
+      "attacks": 1,
+      "leadership": 6
+    },
+    "startExp": 8,
+    "rules": ["Wizard"]
+  },
+  {
+    "gold": 20,
+    "warbandType": "Skaven",
+    "type": "Night Runner",
+    "isHero": true,
+    "stats": {
+      "movement": 6,
+      "weaponSkill": 2,
+      "ballisticSkill": 3,
+      "strength": 3,
+      "toughness": 3,
+      "wounds": 1,
+      "initiative": 4,
+      "attacks": 1,
+      "leadership": 4
+    },
+    "startExp": 0,
+    "rules": []
+  },
+  {
+    "gold": 20,
+    "warbandType": "Skaven",
+    "type": "Verminkin",
+    "isHero": false,
+    "stats": {
+      "movement": 5,
+      "weaponSkill": 3,
+      "ballisticSkill": 3,
+      "strength": 3,
+      "toughness": 3,
+      "wounds": 1,
+      "initiative": 4,
+      "attacks": 1,
+      "leadership": 5
+    },
+    "startExp": 0,
+    "rules": []
+  },
+  {
+    "gold": 15,
+    "warbandType": "Skaven",
+    "type": "Giant Rats",
+    "isHero": false,
+    "stats": {
+      "movement": 6,
+      "weaponSkill": 2,
+      "ballisticSkill": 0,
+      "strength": 3,
+      "toughness": 3,
+      "wounds": 1,
+      "initiative": 4,
+      "attacks": 1,
+      "leadership": 4
+    },
+    "startExp": 0,
+    "rules": ["Pack Size", "No Experience"]
+  },
+  {
+    "gold": 210,
+    "warbandType": "Skaven",
+    "type": "Rat Ogre",
+    "isHero": false,
+    "stats": {
+      "movement": 6,
+      "weaponSkill": 3,
+      "ballisticSkill": 3,
+      "strength": 5,
+      "toughness": 5,
+      "wounds": 3,
+      "initiative": 4,
+      "attacks": 3,
+      "leadership": 4
+    },
+    "startExp": 0,
+    "rules": ["Fear", "Stupidity", "No Experience", "Large Target"]
+  }
+]

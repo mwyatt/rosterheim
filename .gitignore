@@ -28,3 +28,7 @@ bootstrap/
 database/
 public/
 storage/
+
+.cache/
+public
+src/gatsby-types.d.ts
