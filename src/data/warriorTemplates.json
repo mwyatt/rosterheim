@@ -16,10 +16,7 @@
       "leadership": 8
     },
     "startExp": 20,
-    "rules": [
-      "Leader",
-      "Wizard"
-    ]
+    "rules": ["Leader", "Wizard"]
   },
   {
     "gold": 90,
@@ -38,9 +35,7 @@
       "leadership": 7
     },
     "startExp": 8,
-    "rules": [
-      "Fear"
-    ]
+    "rules": ["Fear"]
   },
   {
     "gold": 25,
@@ -78,9 +73,7 @@
       "leadership": 6
     },
     "startExp": 0,
-    "rules": [
-      "Crazed"
-    ]
+    "rules": ["Crazed"]
   },
   {
     "gold": 25,
@@ -137,10 +130,7 @@
       "leadership": 7
     },
     "startExp": 20,
-    "rules": [
-      "Leader",
-      "Perfect Killer"
-    ]
+    "rules": ["Leader", "Perfect Killer"]
   },
   {
     "gold": 40,
@@ -159,8 +149,7 @@
       "leadership": 6
     },
     "startExp": 8,
-    "rules": [
-    ]
+    "rules": []
   },
   {
     "gold": 40,
@@ -179,9 +168,7 @@
       "leadership": 6
     },
     "startExp": 8,
-    "rules": [
-      "Wizard"
-    ]
+    "rules": ["Wizard"]
   },
   {
     "gold": 20,
@@ -200,8 +187,7 @@
       "leadership": 4
     },
     "startExp": 0,
-    "rules": [
-    ]
+    "rules": []
   },
   {
     "gold": 20,
@@ -220,8 +206,7 @@
       "leadership": 5
     },
     "startExp": 0,
-    "rules": [
-    ]
+    "rules": []
   },
   {
     "gold": 15,
@@ -240,10 +225,7 @@
       "leadership": 4
     },
     "startExp": 0,
-    "rules": [
-      "Pack Size",
-      "No Experience"
-    ]
+    "rules": ["Pack Size", "No Experience"]
   },
   {
     "gold": 210,
@@ -262,11 +244,6 @@
       "leadership": 4
     },
     "startExp": 0,
-    "rules": [
-      "Fear",
-      "Stupidity",
-      "No Experience",
-      "Large Target"
-    ]
+    "rules": ["Fear", "Stupidity", "No Experience", "Large Target"]
   }
 ]

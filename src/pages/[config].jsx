@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import warriorTemplates from '../data/warriorTemplates.json';
-import warbandTypes from '../data/warbandTypes.json';
-import warriorTypes from '../data/warriorTypes.json';
-import equipments from '../data/equipment.json';
-import rules from '../data/rules.json';
-import Name from '../components/warband/name';
-import Type from '../components/warband/type';
-import Warrior from '../components/warband/warrior';
-import ClosePill from '../components/warband/closePill';
+import React, { useEffect, useState } from "react";
+import warriorTemplates from "../data/warriorTemplates.json";
+import warbandTypes from "../data/warbandTypes.json";
+import warriorTypes from "../data/warriorTypes.json";
+import equipments from "../data/equipment.json";
+import rules from "../data/rules.json";
+import Name from "../components/warband/name";
+import Type from "../components/warband/type";
+import Warrior from "../components/warband/warrior";
+import ClosePill from "../components/warband/closePill";
 
 export default function IndexPage({ params }) {
   const startingGold = 500;
   const [feedback, setFeedback] = useState();
   const [formData, setFormData] = useState({
-    name: '',
-    type: '',
+    name: "",
+    type: "",
     warriors: [],
     equipments: [],
     wyrdstone: 0,
@@ -33,10 +33,7 @@ export default function IndexPage({ params }) {
     const equipment = warrior.equipments.pop();
     setFormData({
       ...formData,
-      equipments: [
-        ...formData.equipments,
-        equipment,
-      ],
+      equipments: [...formData.equipments, equipment],
     });
   };
 
@@ -123,7 +120,7 @@ export default function IndexPage({ params }) {
         8: 100,
       },
     ];
-    for (let i = 0; i < sellMap.length; i+=1) {
+    for (let i = 0; i < sellMap.length; i += 1) {
       if (sellMap[i].check(warLen)) {
         if (selling > 8) {
           return sellMap[i][8];
@@ -131,11 +128,11 @@ export default function IndexPage({ params }) {
         return sellMap[i][selling];
       }
     }
-    throw new Error('Unexpected wyrdstone value calculation error.');
+    throw new Error("Unexpected wyrdstone value calculation error.");
   };
 
   const sellWyrdstone = () => {
-    if (inputData.wyrdstone < 1 || (formData.wyrdstone < inputData.wyrdstone)) {
+    if (inputData.wyrdstone < 1 || formData.wyrdstone < inputData.wyrdstone) {
       return;
     }
 
@@ -162,14 +159,16 @@ export default function IndexPage({ params }) {
         (item) => item.type === warrior.warriorTemplateType,
       );
 
-      for (let i = 0; i < warrior.qty; i+=1) {
+      for (let i = 0; i < warrior.qty; i += 1) {
         costRows.push({
           name: warriorTemplate.type,
           gold: warriorTemplate.gold,
         });
 
         warrior.equipments.map((equipmentName) => {
-          const equipment = equipments.find((item) => item.name === equipmentName);
+          const equipment = equipments.find(
+            (item) => item.name === equipmentName,
+          );
           costRows.push({
             name: equipment.name,
             gold: equipment.gold,
@@ -187,8 +186,11 @@ export default function IndexPage({ params }) {
 
   const calculateRemainingGold = () => {
     const costRows = getCostRows();
-    const totalGold = costRows.reduce((total, costRow) => total + costRow.gold, 0);
-    return (startingGold + formData.gold) - totalGold;
+    const totalGold = costRows.reduce(
+      (total, costRow) => total + costRow.gold,
+      0,
+    );
+    return startingGold + formData.gold - totalGold;
   };
 
   const getWarriorRuleNames = (warrior) => {
@@ -207,23 +209,33 @@ export default function IndexPage({ params }) {
   };
 
   const getUniqueRules = () => {
-    const ruleNames = formData.warriors.reduce((items, warrior) => items.concat(getWarriorRuleNames(warrior)), []);
+    const ruleNames = formData.warriors.reduce(
+      (items, warrior) => items.concat(getWarriorRuleNames(warrior)),
+      [],
+    );
     return rules.filter((rule) => ruleNames.includes(rule.name));
   };
 
   const getUniqueEquipment = () => {
-    const equipmentNames = formData.warriors.reduce((items, warrior) => items.concat(warrior.equipments), []);
-    return equipments.filter((equipment) => equipmentNames.includes(equipment.name));
+    const equipmentNames = formData.warriors.reduce(
+      (items, warrior) => items.concat(warrior.equipments),
+      [],
+    );
+    return equipments.filter((equipment) =>
+      equipmentNames.includes(equipment.name),
+    );
   };
 
-  const getTotalExperience = () => formData.warriors.reduce((total, warrior) => {
-    const warriorTemplate = warriorTemplates.find(
-      (item) => item.type === warrior.warriorTemplateType,
-    );
-    return total + warrior.exp + warriorTemplate.startExp;
-  }, 0);
+  const getTotalExperience = () =>
+    formData.warriors.reduce((total, warrior) => {
+      const warriorTemplate = warriorTemplates.find(
+        (item) => item.type === warrior.warriorTemplateType,
+      );
+      return total + warrior.exp + warriorTemplate.startExp;
+    }, 0);
 
-  const getMemberCount = () => formData.warriors.reduce((total, warrior) => total + warrior.qty, 0);
+  const getMemberCount = () =>
+    formData.warriors.reduce((total, warrior) => total + warrior.qty, 0);
 
   const getWarbandRating = () => {
     let totalWarriorExp = 0;
@@ -231,7 +243,7 @@ export default function IndexPage({ params }) {
       const warriorTemplate = warriorTemplates.find(
         (item) => item.type === warrior.warriorTemplateType,
       );
-      return total + ((warrior.exp + warriorTemplate.startExp) * warrior.qty);
+      return total + (warrior.exp + warriorTemplate.startExp) * warrior.qty;
     }, 0);
     return getMemberCount() * 5 + totalWarriorExp;
   };
@@ -245,7 +257,9 @@ export default function IndexPage({ params }) {
 
   const filterWarriorTemplates = (type) => {
     setFilteredWarriorTemplates([
-      ...warriorTemplates.filter((warriorTemplate) => warriorTemplate.warbandType === type),
+      ...warriorTemplates.filter(
+        (warriorTemplate) => warriorTemplate.warbandType === type,
+      ),
     ]);
   };
 
@@ -270,22 +284,27 @@ export default function IndexPage({ params }) {
     //   formData,
     // });
 
-    window.history.pushState('', '', `${window.location.origin}/${base64}`);
+    window.history.pushState("", "", `${window.location.origin}/${base64}`);
   };
 
   const handleWarriorTemplateChoose = (warriorTemplateType) => {
     if (!warriorTemplateType) return;
-    const warriorTemplate = warriorTemplates.find((item) => item.type === warriorTemplateType);
+    const warriorTemplate = warriorTemplates.find(
+      (item) => item.type === warriorTemplateType,
+    );
 
-formData.warriors = [...formData.warriors, {
-      warriorTemplateType: warriorTemplate.type,
-      equipments: [],
-      rules: [],
-      name: '',
-      qty: 1,
-      exp: 0,
-      stats: {},
-    }];
+    formData.warriors = [
+      ...formData.warriors,
+      {
+        warriorTemplateType: warriorTemplate.type,
+        equipments: [],
+        rules: [],
+        name: "",
+        qty: 1,
+        exp: 0,
+        stats: {},
+      },
+    ];
     setFormData({ ...formData });
   };
 
@@ -326,7 +345,7 @@ formData.warriors = [...formData.warriors, {
         setFormData(data);
         filterWarriorTemplates(data.type);
       } catch (e) {
-        setFeedback('Invalid warband data in URL.');
+        setFeedback("Invalid warband data in URL.");
       }
     }
   }, []);
@@ -343,14 +362,19 @@ formData.warriors = [...formData.warriors, {
           <Name handleChange={handleChange} name={formData.name} />
         </div>
         <div className="border flex flex-2 p-2 border-black">
-          <Type handleChangeType={handleChangeType} warbandTypes={warbandTypes} type={formData.type} />
+          <Type
+            handleChangeType={handleChangeType}
+            warbandTypes={warbandTypes}
+            type={formData.type}
+          />
         </div>
       </div>
       <div className="sm:flex gap-6 mb-4">
-        <div className={[
-          ' border p-2 border-black',
-          formData.equipments.length ? 'flex-none' : 'flex-1',
-        ].join(' ')}
+        <div
+          className={[
+            " border p-2 border-black",
+            formData.equipments.length ? "flex-none" : "flex-1",
+          ].join(" ")}
         >
           <h2 className="uppercase text-center">Treasury:</h2>
           <div className="border-b border-slate-300 mb-2 pb-2">
@@ -360,17 +384,16 @@ formData.warriors = [...formData.warriors, {
             </p>
             <div>
               <button
-                  type="button"
-
+                type="button"
                 className="rounded border border-black px-1 m-1 print:hidden"
-                onClick={() => setInputData({
-                  ...inputData,
-                  costBreakdownOpen: !inputData.costBreakdownOpen,
-                })}
+                onClick={() =>
+                  setInputData({
+                    ...inputData,
+                    costBreakdownOpen: !inputData.costBreakdownOpen,
+                  })
+                }
               >
-                {inputData.costBreakdownOpen ? 'Hide' : 'Show'}
-                {' '}
-                Breakdown
+                {inputData.costBreakdownOpen ? "Hide" : "Show"} Breakdown
               </button>
 
               <div>
@@ -386,11 +409,8 @@ formData.warriors = [...formData.warriors, {
                     </div>
 
                     {getCostRows().map((costRow) => (
-                      <div key={[costRow.name, costRow.gold].join('-')}>
-                        <span>{costRow.name}</span>
-                        {' '}
-                        -
-                        {costRow.gold}
+                      <div key={[costRow.name, costRow.gold].join("-")}>
+                        <span>{costRow.name}</span> -{costRow.gold}
                       </div>
                     ))}
                   </>
@@ -401,7 +421,12 @@ formData.warriors = [...formData.warriors, {
               className="rounded px-1 border border-slate-400 w-20 mr-1 print:hidden"
               type="number"
               value={inputData.gold}
-              onChange={(e) => setInputData({ ...inputData, gold: parseInt(e.target.value, 10) })}
+              onChange={(e) =>
+                setInputData({
+                  ...inputData,
+                  gold: parseInt(e.target.value, 10),
+                })
+              }
             />
             <button
               type="button"
@@ -420,7 +445,7 @@ formData.warriors = [...formData.warriors, {
               Add
             </button>
             <button
-                type="button"
+              type="button"
               className="rounded border border-black px-1 m-1 print:hidden"
               onClick={() => {
                 setFormData({
@@ -445,15 +470,21 @@ formData.warriors = [...formData.warriors, {
             className="rounded px-1 border border-slate-400 w-20 mr-1 print:hidden"
             type="number"
             value={inputData.wyrdstone}
-            onChange={(e) => setInputData({ ...inputData, wyrdstone: parseInt(e.target.value, 10) })}
+            onChange={(e) =>
+              setInputData({
+                ...inputData,
+                wyrdstone: parseInt(e.target.value, 10),
+              })
+            }
           />
           <button
-              type="button"
+            type="button"
             className="rounded border border-black px-1 m-1 print:hidden"
             onClick={() => {
               setFormData({
                 ...formData,
-                wyrdstone: formData.wyrdstone + parseInt(inputData.wyrdstone, 10),
+                wyrdstone:
+                  formData.wyrdstone + parseInt(inputData.wyrdstone, 10),
               });
               setInputData({
                 ...inputData,
@@ -464,17 +495,18 @@ formData.warriors = [...formData.warriors, {
             Add
           </button>
           <button
-              type="button"
+            type="button"
             className="rounded border border-black px-1 m-1 print:hidden"
             onClick={sellWyrdstone}
           >
             Sell
           </button>
         </div>
-        <div className={[
-          ' border p-2 border-black',
-          formData.equipments.length ? 'flex-none' : 'flex-1',
-        ].join(' ')}
+        <div
+          className={[
+            " border p-2 border-black",
+            formData.equipments.length ? "flex-none" : "flex-1",
+          ].join(" ")}
         >
           <h2 className="uppercase">Rating:</h2>
           <p>
@@ -483,41 +515,43 @@ formData.warriors = [...formData.warriors, {
           </p>
           <p className="border-b border-slate-300 pb-2 mb-2">
             Members
-            {getMemberCount()}
-            {' '}
-            &times; 5
+            {getMemberCount()} &times; 5
           </p>
           <p>
             Rating:
             {getWarbandRating()}
           </p>
         </div>
-        <div className={[
-          'flex-1 border p-2 border-black',
-          formData.equipments.length ? '' : 'print:hidden',
-        ].join(' ')}
+        <div
+          className={[
+            "flex-1 border p-2 border-black",
+            formData.equipments.length ? "" : "print:hidden",
+          ].join(" ")}
         >
           <h2 className="uppercase">Stored Equipment:</h2>
           <select
             className="print:hidden max-w-16 p-1 border border-black rounded"
             onChange={(e) => {
-              if (e.target.value === '') return;
+              if (e.target.value === "") return;
               setFormData({
                 ...formData,
                 equipments: [
                   ...formData.equipments,
-                  equipments.find((equipment) => equipment.name === e.target.value).name,
+                  equipments.find(
+                    (equipment) => equipment.name === e.target.value,
+                  ).name,
                 ],
               });
             }}
           >
             <option value="">Add</option>
             {equipments.map((equipment) => (
-              <option value={equipment.name} key={equipment.name}>{equipment.name}</option>
+              <option value={equipment.name} key={equipment.name}>
+                {equipment.name}
+              </option>
             ))}
           </select>
           <div className="flex flex-wrap gap-1 mt-1">
-
             {formData.equipments.map((equipmentName, index) => (
               <ClosePill
                 key={equipmentName}
@@ -528,7 +562,6 @@ formData.warriors = [...formData.warriors, {
                 }}
               />
             ))}
-
           </div>
         </div>
       </div>
@@ -540,10 +573,8 @@ formData.warriors = [...formData.warriors, {
           <option value="">Add Warrior</option>
           {filteredWarriorTemplates.map((warriorTemplate) => (
             <option value={warriorTemplate.type} key={warriorTemplate.type}>
-              {warriorTemplate.type}
-              {' '}
-              -
-              {warriorTemplate.isHero ? 'Hero' : 'Henchman'}
+              {warriorTemplate.type} -
+              {warriorTemplate.isHero ? "Hero" : "Henchman"}
             </option>
           ))}
         </select>
@@ -553,7 +584,9 @@ formData.warriors = [...formData.warriors, {
           <Warrior
             warrior={warrior}
             warriorIndex={warriorIndex}
-            key={[warrior.name, warrior.warriorTemplateType, warriorIndex].join('-')}
+            key={[warrior.name, warrior.warriorTemplateType, warriorIndex].join(
+              "-",
+            )}
             warriorTemplates={warriorTemplates}
             warriorTypes={warriorTypes}
             equipments={equipments}
@@ -572,11 +605,14 @@ formData.warriors = [...formData.warriors, {
         <h3 className="text-center text-lg mb-3">Equipment</h3>
         {getUniqueEquipment().map((equipment) => (
           <p key={equipment.name} className="my-1">
-            <span className="rounded bg-gray-200 m-1 px-1">{equipment.name}</span>
-            {' '}
+            <span className="rounded bg-gray-200 m-1 px-1">
+              {equipment.name}
+            </span>{" "}
             {equipment.description}
             {equipment.rules.map((ruleName) => (
-              <span key={ruleName} className="rounded bg-gray-200 m-1 px-1">{ruleName}</span>
+              <span key={ruleName} className="rounded bg-gray-200 m-1 px-1">
+                {ruleName}
+              </span>
             ))}
           </p>
         ))}
@@ -585,8 +621,7 @@ formData.warriors = [...formData.warriors, {
         <h3 className="text-center text-lg mb-3 mt-4">Rules</h3>
         {getUniqueRules().map((rule) => (
           <p className="my-1" key={rule.name}>
-            <span className="rounded bg-gray-200 m-1 px-1">{rule.name}</span>
-            {' '}
+            <span className="rounded bg-gray-200 m-1 px-1">{rule.name}</span>{" "}
             {rule.description}
           </p>
         ))}

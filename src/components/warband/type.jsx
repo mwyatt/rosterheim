@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export default function Type({ handleChangeType, type, warbandTypes }) {
   return (
@@ -12,7 +12,9 @@ export default function Type({ handleChangeType, type, warbandTypes }) {
       >
         <option value="">Select Type</option>
         {warbandTypes.map((warbandType) => (
-          <option value={warbandType} key={warbandType}>{warbandType}</option>
+          <option value={warbandType} key={warbandType}>
+            {warbandType}
+          </option>
         ))}
       </select>
       <span className="screen:hidden print:show">{type}</span>

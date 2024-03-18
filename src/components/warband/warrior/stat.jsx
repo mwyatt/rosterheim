@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 
 const statsTemplate = {
-  movement: 'M',
-  weaponSkill: 'WS',
-  ballisticSkill: 'BS',
-  strength: 'S',
-  toughness: 'T',
-  wounds: 'W',
-  initiative: 'I',
-  attacks: 'A',
-  leadership: 'Ld',
+  movement: "M",
+  weaponSkill: "WS",
+  ballisticSkill: "BS",
+  strength: "S",
+  toughness: "T",
+  wounds: "W",
+  initiative: "I",
+  attacks: "A",
+  leadership: "Ld",
 };
 
 export default function Stat({
@@ -19,7 +19,10 @@ export default function Stat({
   warriorIndex,
   handleChangeWarrior,
 }) {
-  const warriorStat = warriorTemplateStatKey in warrior.stats ? warrior.stats[warriorTemplateStatKey] : 0;
+  const warriorStat =
+    warriorTemplateStatKey in warrior.stats
+      ? warrior.stats[warriorTemplateStatKey]
+      : 0;
 
   const isBoosted = warrior.stats[warriorTemplateStatKey] > 0;
 
@@ -28,10 +31,12 @@ export default function Stat({
       <div>{statsTemplate[warriorTemplateStatKey]}</div>
       <input
         className={[
-          'w-10 text-center bg-transparent rounded',
-          isBoosted && 'border border-black',
-        ].join(' ')}
-        title={isBoosted ? `boosted by ${warrior.stats[warriorTemplateStatKey]}` : ''}
+          "w-10 text-center bg-transparent rounded",
+          isBoosted && "border border-black",
+        ].join(" ")}
+        title={
+          isBoosted ? `boosted by ${warrior.stats[warriorTemplateStatKey]}` : ""
+        }
         type="text"
         value={warriorStat + warriorTemplateStatValue}
         onChange={function _() {
@@ -43,9 +48,10 @@ export default function Stat({
         onKeyUp={function _(e) {
           const number = parseInt(e.key, 10);
           if (Number.isNaN(number)) return;
-          handleChangeWarrior(warriorIndex, 'stats', {
+          handleChangeWarrior(warriorIndex, "stats", {
             ...warrior.stats,
-            [warriorTemplateStatKey]: parseInt(e.key, 10) - warriorTemplateStatValue,
+            [warriorTemplateStatKey]:
+              parseInt(e.key, 10) - warriorTemplateStatValue,
           });
         }}
       />
