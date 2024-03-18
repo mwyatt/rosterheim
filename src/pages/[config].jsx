@@ -9,7 +9,7 @@ import Type from "../components/warband/type";
 import Warrior from "../components/warband/warrior";
 import ClosePill from "../components/warband/closePill";
 
-export default function IndexPage({ params }) {
+export default function ConfigPage({ params }) {
   const startingGold = 500;
   const [feedback, setFeedback] = useState();
   const [formData, setFormData] = useState({
@@ -33,7 +33,10 @@ export default function IndexPage({ params }) {
     const equipment = warrior.equipments.pop();
     setFormData({
       ...formData,
-      equipments: [...formData.equipments, equipment],
+      equipments: [
+          ...formData.equipments,
+              ...warrior.equipments
+      ],
     });
   };
 
@@ -287,6 +290,42 @@ export default function IndexPage({ params }) {
     window.history.pushState("", "", `${window.location.origin}/${base64}`);
   };
 
+  const getWarriorsGrouped = () => {
+    let groupedWarriors = [
+      {
+        check: function _(warriorTemplate) {
+          return warriorTemplate.isHero === true
+        },
+        name: 'Heroes',
+        warriors: []
+      },
+      {
+        check: function _(warriorTemplate) {
+          return warriorTemplate.isHero === false
+        },
+        name: 'Henchmen',
+        warriors: []
+      }
+    ];
+
+    formData.warriors.filter((warrior, index) => {
+      const warriorTemplate = warriorTemplates.find(
+          (item) => item.type === warrior.warriorTemplateType,
+      );
+      groupedWarriors.filter((group) => {
+        if (group.check(warriorTemplate)) {
+          group.warriors.push({
+            ...warrior,
+            index: index
+          });
+        }
+        return null;
+      })
+    })
+
+    return groupedWarriors;
+  }
+
   const handleWarriorTemplateChoose = (warriorTemplateType) => {
     if (!warriorTemplateType) return;
     const warriorTemplate = warriorTemplates.find(
@@ -305,6 +344,7 @@ export default function IndexPage({ params }) {
         stats: {},
       },
     ];
+
     setFormData({ ...formData });
   };
 
@@ -354,9 +394,13 @@ export default function IndexPage({ params }) {
     handleSubmit();
   }, [formData]);
 
+  const uniqueEquipment = getUniqueEquipment();
+  const uniqueRules = getUniqueRules();
+
   return (
     <div className="max-w-6xl mx-auto screen:sm:p-6 p-2">
       <div>{feedback}</div>
+      <h1 className="font-schoensperger text-6xl text-center mb-2 print:hidden">Rosterheim</h1>
       <div className="sm:flex gap-6 mb-4">
         <div className="border flex flex-1 p-2 border-black">
           <Name handleChange={handleChange} name={formData.name} />
@@ -579,53 +623,66 @@ export default function IndexPage({ params }) {
           ))}
         </select>
       </div>
-      <div className="mb-4">
-        {formData.warriors.map((warrior, warriorIndex) => (
-          <Warrior
-            warrior={warrior}
-            warriorIndex={warriorIndex}
-            key={[warrior.name, warrior.warriorTemplateType, warriorIndex].join(
-              "-",
-            )}
-            warriorTemplates={warriorTemplates}
-            warriorTypes={warriorTypes}
-            equipments={equipments}
-            handleChangeWarrior={handleChangeWarrior}
-            handleQtyChoose={handleQtyChoose}
-            handleEquipmentChoose={handleEquipmentChoose}
-            handleEquipmentRemove={handleEquipmentRemove}
-            handleWarriorRemove={handleWarriorRemove}
-            moveEquipmentToStash={moveEquipmentToStash}
-            rules={rules}
-            getWarriorRuleNames={getWarriorRuleNames}
-          />
-        ))}
-      </div>
-      <div>
-        <h3 className="text-center text-lg mb-3">Equipment</h3>
-        {getUniqueEquipment().map((equipment) => (
-          <p key={equipment.name} className="my-1">
+        {getWarriorsGrouped().map((group) => {
+          if (group.warriors.length > 0) {
+            return (
+                <div key={group.name} className="mb-4">
+                  <h2 className="font-schoensperger text-6xl text-center mt-8 print:mb-4 break-inside-avoid">{group.name}</h2>
+
+                  {group.warriors.map((warrior) => (
+                      <Warrior
+                          warrior={warrior}
+                          warriorIndex={warrior.index}
+                          key={warrior.index}
+                          warriorTemplates={warriorTemplates}
+                          warriorTypes={warriorTypes}
+                          equipments={equipments}
+                          handleChangeWarrior={handleChangeWarrior}
+                          handleQtyChoose={handleQtyChoose}
+                          handleEquipmentChoose={handleEquipmentChoose}
+                          handleEquipmentRemove={handleEquipmentRemove}
+                          handleWarriorRemove={handleWarriorRemove}
+                          moveEquipmentToStash={moveEquipmentToStash}
+                          rules={rules}
+                          getWarriorRuleNames={getWarriorRuleNames}
+                      />
+                  ))}
+
+                </div>
+            )
+          }
+          return null;
+            }
+        )}
+      {uniqueEquipment.length > 0 && (
+          <div>
+            <h3 className="text-center text-lg mb-3">Equipment</h3>
+            {uniqueEquipment.map((equipment) => (
+                <p key={equipment.name} className="my-1">
             <span className="rounded bg-gray-200 m-1 px-1">
               {equipment.name}
             </span>{" "}
-            {equipment.description}
-            {equipment.rules.map((ruleName) => (
-              <span key={ruleName} className="rounded bg-gray-200 m-1 px-1">
+                  {equipment.description}
+                  {equipment.rules.map((ruleName) => (
+                      <span key={ruleName} className="rounded bg-gray-200 m-1 px-1">
                 {ruleName}
               </span>
+                  ))}
+                </p>
             ))}
-          </p>
-        ))}
-      </div>
-      <div>
-        <h3 className="text-center text-lg mb-3 mt-4">Rules</h3>
-        {getUniqueRules().map((rule) => (
-          <p className="my-1" key={rule.name}>
-            <span className="rounded bg-gray-200 m-1 px-1">{rule.name}</span>{" "}
-            {rule.description}
-          </p>
-        ))}
-      </div>
+          </div>
+      )}
+      {uniqueRules.length > 0 && (
+          <div>
+            <h3 className="text-center text-lg mb-3 mt-4">Rules</h3>
+            {uniqueRules.map((rule) => (
+                <p className="my-1" key={rule.name}>
+                  <span className="rounded bg-gray-200 m-1 px-1">{rule.name}</span>{" "}
+                  {rule.description}
+                </p>
+            ))}
+          </div>
+      )}
     </div>
   );
 }

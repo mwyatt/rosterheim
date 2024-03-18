@@ -216,12 +216,12 @@ export default function Warrior({
                 </option>
               ))}
             </select>
-            <button
-              type="button"
-              onClick={() => moveEquipmentToStash(warriorIndex)}
-            >
-              Transfer to stash
-            </button>
+            {/*<button*/}
+            {/*  type="button"*/}
+            {/*  onClick={() => moveEquipmentToStash(warriorIndex)}*/}
+            {/*>*/}
+            {/*  Transfer to stash*/}
+            {/*</button>*/}
             <div className="flex flex-wrap gap-1 mt-1">
               {warrior.equipments.map(
                 (warriorEquipmentName, warriorEquipmentIndex) => (
